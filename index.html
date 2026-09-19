@@ -446,6 +446,10 @@
       <p style="font-size:calc(12px * var(--fs,1));color:var(--ink-soft);margin-top:8px;">מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
       <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה</label>
       <input type="text" id="cartRecipientName" placeholder="לדוגמה: שם המקבל/ת או מוען המתנה" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
+      <div id="cityFieldWrap" style="display:none;">
+        <label style="display:block;margin-top:12px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">עיר</label>
+        <input type="text" id="cartCity" placeholder="לדוגמה: רמת גן" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
+      </div>
     </div>
     <p style="font-size:calc(12.5px * var(--fs,1));color:var(--ink-soft);margin-top:6px;">* המחיר הסופי, כולל התאמות טעם וגודל, יאושר מולכם בשיחת הוואטסאפ.</p>
     <div style="display:flex;gap:10px;margin-top:16px;">
@@ -499,7 +503,10 @@
   var WA_NUMBER = '972585049194';
 
   function parsePrice(str){
-    var m = String(str).match(/(\d+(?:\.\d+)?)/);
+    var s = String(str);
+    var m = s.match(/(\d+(?:\.\d+)?)\s*₪/);
+    if (m) return parseFloat(m[1]);
+    m = s.match(/(\d+(?:\.\d+)?)/);
     return m ? parseFloat(m[1]) : null;
   }
 
@@ -550,7 +557,7 @@
     var total = 0;
     ids.forEach(function(id){
       var it = cart[id];
-      var unit = parsePrice(it.price);
+      var unit = (typeof it.unitPrice === 'number' && it.unitPrice !== null) ? it.unitPrice : parsePrice(it.price);
       if (unit != null) total += unit * it.qty;
 
       var row = document.createElement('div');
@@ -591,7 +598,7 @@
     });
     var total = 0;
     ids.forEach(function(id){
-      var unit = parsePrice(cart[id].price);
+      var unit = (typeof cart[id].unitPrice === 'number' && cart[id].unitPrice !== null) ? cart[id].unitPrice : parsePrice(cart[id].price);
       if (unit != null) total += unit * cart[id].qty;
     });
     var fulfillmentInput = document.querySelector('input[name="fulfillment"]:checked');
@@ -600,18 +607,21 @@
       : 'איסוף עצמי';
     var recipientEl = document.getElementById('cartRecipientName');
     var recipientName = recipientEl ? recipientEl.value.trim() : '';
+    var cityEl = document.getElementById('cartCity');
+    var city = cityEl ? cityEl.value.trim() : '';
     var msg = 'היי! אשמח להזמין:\n' + lines.join('\n');
     if (total > 0) msg += '\nסה"כ משוער: ' + total + ' ₪';
     msg += '\nאופן קבלה: ' + fulfillmentText;
     if (recipientName) msg += '\nשם למילוי בהזמנה: ' + recipientName;
+    if (city) msg += '\nעיר: ' + city;
     msg += '\nתודה!';
     document.getElementById('cartCheckout').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg));
   }
 
   window.MatokCart = {
-    add: function(id, name, price){
+    add: function(id, name, price, unitPrice){
       if (cart[id]) cart[id].qty += 1;
-      else cart[id] = { name: name, price: price, qty: 1 };
+      else cart[id] = { name: name, price: price, qty: 1, unitPrice: (typeof unitPrice === 'number') ? unitPrice : null };
       updateBadges();
       renderCart();
       buildCheckoutLink();
@@ -636,9 +646,16 @@
     buildCheckoutLink();
   });
   document.querySelectorAll('input[name="fulfillment"]').forEach(function(r){
-    r.addEventListener('change', buildCheckoutLink);
+    r.addEventListener('change', function(){
+      var isDelivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
+      var wrap = document.getElementById('cityFieldWrap');
+      wrap.style.display = isDelivery ? 'block' : 'none';
+      if (!isDelivery) document.getElementById('cartCity').value = '';
+      buildCheckoutLink();
+    });
   });
   document.getElementById('cartRecipientName').addEventListener('input', buildCheckoutLink);
+  document.getElementById('cartCity').addEventListener('input', buildCheckoutLink);
 
   renderCart();
 })();
@@ -833,7 +850,7 @@
           var sel = card.querySelector('.price-select');
           var opt = sel.options[sel.selectedIndex];
           var cartId = itemId + '-' + opt.value + '-' + sel.selectedIndex;
-          window.MatokCart.add(cartId, item.name, opt.text);
+          window.MatokCart.add(cartId, item.name, opt.text, Number(opt.value));
         } else {
           window.MatokCart.add(itemId, item.name, item.price);
         }
