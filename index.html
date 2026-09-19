@@ -1,0 +1,1002 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מתוק בשכונה — קינוחים דלי פחמימה, בלי סוכר</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22 font-size=%2280%22><text y=%2280%22>🧁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800;900&family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fs:1;
+    --teal:#22C1D1;
+    --teal-deep:#0FA4B4;
+    --pink:#EC1868;
+    --pink-deep:#C90F55;
+    --cream:#FFF8EC;
+    --ink:#2B2420;
+    --ink-soft:#6B5D51;
+    --card:#FFFFFF;
+    --line:#F0E2CE;
+    --green:#3CAA5C;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:#221A12;
+      --ink:#F5ECDF;
+      --ink-soft:#CBB9A6;
+      --card:#2E241A;
+      --line:#4A3A28;
+      --teal:#3AD3E2;
+      --pink:#FF3D82;
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:#221A12;
+    --ink:#F5ECDF;
+    --ink-soft:#CBB9A6;
+    --card:#2E241A;
+    --line:#4A3A28;
+    --teal:#3AD3E2;
+    --pink:#FF3D82;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Heebo',-apple-system,'Segoe UI',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.rubik{ font-family:'Rubik',sans-serif; margin:0; }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  button{font-family:'Heebo',sans-serif;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
+  @media (max-width:640px){.wrap{padding:0 20px;}}
+
+  header{position:sticky;top:0;z-index:40;background:var(--card);box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .navrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:16px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .logo-badge{width:46px;height:46px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;}
+  .brand .logo-badge img{width:100%;height:100%;object-fit:cover;}
+  .brand span{font-weight:800;font-size:calc(20px * var(--fs,1));color:var(--pink);}
+  nav.links{display:flex;gap:24px;font-size:calc(15px * var(--fs,1));font-weight:600;}
+  nav.links a{border-bottom:2px solid transparent;padding-bottom:3px;}
+  nav.links a:hover{border-color:var(--teal);}
+  .navcta{background:var(--pink);color:#fff;padding:10px 20px;border-radius:999px;font-weight:800;font-size:calc(14px * var(--fs,1));white-space:nowrap;}
+  .navcta:hover{background:var(--pink-deep);}
+  @media (max-width:780px){ nav.links{display:none;} .navcta{display:none;} }
+
+  .hamburger{display:none;background:none;border:none;cursor:pointer;padding:4px;color:var(--ink);flex:none;}
+  @media (max-width:780px){ .hamburger{display:flex;} }
+  .mobile-menu{display:none;flex-direction:column;background:var(--card);border-top:1px solid var(--line);padding:10px 20px 16px;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{padding:12px 4px;font-weight:600;font-size:calc(16px * var(--fs,1));border-bottom:1px solid var(--line);}
+  .mobile-menu a:last-child{border-bottom:none;}
+
+  .hero{background:var(--teal);padding:56px 0 0;position:relative;}
+  .hero-grid{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:70px;}
+  .hero-media-badge{width:230px;margin:0 auto 10px;}
+  .hero-media-badge img{width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 10px 18px rgba(0,0,0,.18));}
+  .hero-location{color:#fff;font-weight:700;font-size:calc(14px * var(--fs,1));letter-spacing:.02em;opacity:.92;margin-bottom:10px;}
+  .hero h1{color:#fff;font-size:clamp(calc(34px * var(--fs,1)), calc(6vw * var(--fs,1)), calc(52px * var(--fs,1)));font-weight:900;line-height:1.12;margin-bottom:16px;}
+  .hero p.lede{color:#fff;font-size:calc(19px * var(--fs,1));max-width:520px;margin:0 auto 30px;opacity:.96;}
+  .hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn-primary{display:inline-block;background:var(--pink);color:#fff;padding:15px 34px;border-radius:999px;font-weight:800;font-size:calc(17px * var(--fs,1));box-shadow:0 10px 24px rgba(0,0,0,.18);}
+  .btn-primary:hover{background:var(--pink-deep);}
+  .btn-outline{display:inline-block;background:rgba(255,255,255,.15);border:2px solid #fff;color:#fff;padding:13px 30px;border-radius:999px;font-weight:700;font-size:calc(16px * var(--fs,1));}
+  .btn-outline:hover{background:rgba(255,255,255,.28);}
+  .wave{display:block;width:100%;height:60px;margin-top:-2px;}
+
+  @keyframes rise{from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);}}
+  .hero-media-badge,.hero h1,.hero p.lede,.hero-actions{animation:rise .7s ease both;}
+  .hero h1{animation-delay:.08s;} .hero p.lede{animation-delay:.16s;} .hero-actions{animation-delay:.24s;}
+  @media (prefers-reduced-motion: reduce){ .hero-media-badge,.hero h1,.hero p.lede,.hero-actions{animation:none;} }
+
+  .about{padding:70px 0;}
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
+  @media (max-width:780px){ .about-grid{grid-template-columns:1fr;gap:34px;} }
+  .about h2{font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);margin-bottom:18px;}
+  .about p{color:var(--ink-soft);font-size:calc(17px * var(--fs,1));margin:0 0 14px;}
+  .about .callout{background:var(--teal);color:#fff;font-weight:800;font-size:calc(17px * var(--fs,1));border-radius:14px;padding:16px 20px;margin-top:16px;}
+  .stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:26px;}
+  .stat{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:18px 22px;text-align:center;flex:1 1 140px;}
+  .stat b{display:block;font-family:'Rubik',sans-serif;font-size:calc(26px * var(--fs,1));font-weight:900;color:var(--pink);}
+  .stat span{font-size:calc(13px * var(--fs,1));color:var(--ink-soft);font-weight:600;}
+
+  .values{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px;}
+  .value{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--teal);border-radius:999px;padding:10px 20px;font-weight:700;font-size:calc(14px * var(--fs,1));color:var(--pink);}
+  .value svg{flex:none;color:var(--pink);}
+
+  .menu{padding:70px 0;background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .menu h2{text-align:center;font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);}
+  .menu > .wrap > p.sub{text-align:center;color:var(--ink-soft);margin:8px 0 36px;font-size:calc(16px * var(--fs,1));}
+  .tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:36px;}
+  .tab{cursor:pointer;border:2px solid var(--teal);background:#fff;color:var(--pink);padding:9px 20px;border-radius:999px;font-weight:700;font-size:calc(14px * var(--fs,1));}
+  .tab.active{background:var(--pink);border-color:var(--pink);color:#fff;}
+  .menu-list{display:none;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .menu-list.active{display:grid;}
+  @media (max-width:820px){ .menu-list.active{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .menu-list.active{grid-template-columns:1fr;} }
+  .item{background:var(--cream);border-radius:16px;padding:20px;border:1px solid var(--line);position:relative;}
+  .item .badge{position:absolute;top:-12px;left:14px;background:var(--teal);color:#fff;font-size:calc(13px * var(--fs,1));font-weight:800;padding:6px 16px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.15);}
+  .item h3{font-size:calc(17px * var(--fs,1));font-weight:700;margin-bottom:6px;color:var(--ink);}
+  .item .price{font-weight:900;color:var(--pink);font-size:calc(16px * var(--fs,1));margin-bottom:8px;font-family:'Rubik',sans-serif;}
+  .price-options-row{margin-bottom:10px;}
+  .price-select{width:100%;font-weight:800;color:var(--pink);font-size:calc(15px * var(--fs,1));font-family:'Rubik',sans-serif;border:2px solid var(--teal);border-radius:10px;padding:8px 10px;background:#fff;cursor:pointer;}
+  .item p{font-size:calc(14px * var(--fs,1));color:var(--ink-soft);margin:0;}
+  .item .carbs{display:inline-block;margin-top:10px;font-size:calc(12.5px * var(--fs,1));font-weight:700;color:var(--teal-deep);background:#fff;border:1px solid var(--teal);border-radius:999px;padding:3px 12px;}
+  .add-cart-row{display:flex;align-items:center;gap:8px;margin-top:12px;}
+  .add-cart-btn{background:var(--teal-deep);color:#fff;border:none;border-radius:999px;padding:8px 16px;font-weight:700;font-size:calc(13px * var(--fs,1));cursor:pointer;}
+  .add-cart-btn:hover{background:var(--pink);}
+  .cart-qty-badge{font-size:calc(13px * var(--fs,1));font-weight:800;color:var(--pink);display:none;}
+
+  .cart-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .cart-row .cart-row-name{flex:1;font-size:calc(14px * var(--fs,1));font-weight:700;}
+  .cart-row .cart-row-price{font-size:calc(13px * var(--fs,1));color:var(--ink-soft);white-space:nowrap;}
+  .cart-stepper{display:flex;align-items:center;gap:6px;}
+  .cart-stepper button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:#fff;font-weight:800;cursor:pointer;color:var(--ink);}
+  .cart-remove{background:none;border:none;color:var(--pink);cursor:pointer;font-size:16px;}
+
+  .item-title-clickable{cursor:pointer;}
+  .nutri-link{font-size:calc(12.5px * var(--fs,1));color:var(--teal-deep);text-decoration:underline;display:inline-block;margin-top:8px;}
+  .nutri-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:calc(14px * var(--fs,1));}
+  .nutri-table th,.nutri-table td{border:1px solid var(--line);padding:8px 10px;text-align:center;}
+  .nutri-table th{background:var(--cream);font-weight:800;}
+  .item-title-clickable:hover{text-decoration:underline;color:var(--pink);}
+  .item-thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin-bottom:10px;cursor:pointer;}
+  .photo-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:85;display:none;align-items:center;justify-content:center;padding:20px;}
+  .photo-modal-overlay.open{display:flex;}
+  .photo-modal{background:#fff;border-radius:16px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;position:relative;}
+  .photo-modal img{width:100%;display:block;}
+  .photo-modal .photo-modal-body{padding:18px;text-align:center;}
+  .photo-modal .photo-modal-body h4{margin:0;font-size:calc(17px * var(--fs,1));color:var(--ink);}
+  .photo-modal .photo-modal-placeholder{padding:50px 20px;color:var(--ink-soft);font-size:calc(14px * var(--fs,1));}
+  .photo-modal-close{position:absolute;top:10px;left:10px;background:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:20px;line-height:1;cursor:pointer;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.2);}
+
+  .press{padding:60px 0 10px;text-align:center;}
+  .press h2{font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);}
+  .press .sub{color:var(--ink-soft);margin:8px 0 30px;font-size:calc(16px * var(--fs,1));}
+  .video-card{display:inline-flex;align-items:center;gap:18px;background:var(--cream);border:2px solid var(--teal);border-radius:16px;padding:16px 26px;max-width:520px;text-align:right;}
+  .video-card:hover{border-color:var(--pink);}
+  .play-circle{flex:none;width:52px;height:52px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;}
+  .video-card-text{display:flex;flex-direction:column;gap:4px;}
+  .video-card-text strong{font-size:calc(16px * var(--fs,1));color:var(--ink);}
+  .video-card-text span{font-size:calc(13.5px * var(--fs,1));color:var(--ink-soft);}
+  @media (max-width:480px){ .video-card{flex-direction:column;text-align:center;padding:20px;} }
+
+  .testimonials{padding:70px 0 60px;text-align:center;background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .testimonials h2{font-size:calc(clamp(26px, 4vw, 34px) * var(--fs,1));color:var(--pink);}
+  .testimonials .sub{color:var(--ink-soft);margin:8px 0 32px;font-size:calc(16px * var(--fs,1));}
+  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:right;}
+  @media (max-width:820px){ .testi-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:560px){ .testi-grid{grid-template-columns:1fr;} }
+  .testi-card{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;}
+  .testi-quote{font-size:calc(14.5px * var(--fs,1));line-height:1.7;color:var(--ink);margin:0;}
+  .testi-name{font-size:calc(13px * var(--fs,1));font-weight:700;color:var(--teal-deep);margin:0;}
+
+  .gallery{padding:70px 0;text-align:center;}
+  .gallery h2{font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);margin-bottom:8px;}
+  .gallery p.sub{color:var(--ink-soft);margin:0 0 32px;}
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media (max-width:700px){ .gallery-grid{grid-template-columns:repeat(2,1fr);} }
+  .gallery-slot{aspect-ratio:1;border:2px dashed var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-size:calc(13px * var(--fs,1));background:var(--card);}
+  figure.photo{margin:0;}
+  figure.photo img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:16px;border:1px solid var(--line);}
+  figure.photo figcaption{margin-top:8px;font-size:calc(13px * var(--fs,1));font-weight:600;color:var(--ink-soft);}
+
+  .contact{background:var(--pink);color:#fff;padding:66px 0;text-align:center;}
+  .contact h2{color:#fff;font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(32px * var(--fs,1)));margin-bottom:14px;}
+  .contact p{color:#FFE3EE;font-size:calc(17px * var(--fs,1));max-width:52ch;margin:0 auto 28px;}
+  .contact .btn-primary{background:#fff;color:var(--pink-deep);}
+  .contact .btn-primary:hover{background:#FFE3EE;}
+  .contact .phone{margin-top:20px;font-weight:800;font-size:calc(18px * var(--fs,1));}
+
+  footer{padding:26px 0;text-align:center;font-size:calc(13px * var(--fs,1));color:var(--ink-soft);background:var(--cream);}
+
+  .float-wa{position:fixed;bottom:22px;left:22px;z-index:50;background:#25D366;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.28);}
+  @media (max-width:600px){ .float-wa{ left:14px; bottom:14px; width:52px;height:52px; } }
+
+  /* Accessibility feature effects */
+  html.a11y-contrast body{background:#000 !important;color:#fff !important;}
+  html.a11y-contrast .about,html.a11y-contrast .menu,html.a11y-contrast .gallery,html.a11y-contrast .press,html.a11y-contrast header{background:#000 !important;}
+  html.a11y-contrast .item,html.a11y-contrast .stat,html.a11y-contrast .gallery-slot{background:#111 !important;border-color:#fff !important;}
+  html.a11y-contrast .item p,html.a11y-contrast .about p,html.a11y-contrast .ink-soft,html.a11y-contrast *{color:#fff !important;}
+  html.a11y-contrast .hero,html.a11y-contrast .contact{background:#000 !important;}
+  html.a11y-contrast a,html.a11y-contrast .btn-primary,html.a11y-contrast .btn-outline,html.a11y-contrast .navcta,html.a11y-contrast .tab{background:#000 !important;color:#FFD400 !important;border-color:#FFD400 !important;}
+  html.a11y-contrast img{filter:grayscale(1) contrast(1.2);}
+
+  html.a11y-links a:not(.no-a11y-highlight){text-decoration:underline !important;text-decoration-thickness:2px !important;background:#FFF3C4 !important;color:#000 !important;padding:1px 3px;}
+
+  html.a11y-readable body,html.a11y-readable h1,html.a11y-readable h2,html.a11y-readable h3{font-family:Arial,'Helvetica Neue',sans-serif !important;letter-spacing:.02em;line-height:1.8 !important;}
+
+  html.a11y-noanim *{animation:none !important;transition:none !important;}
+
+  .a11y-btn{position:fixed;bottom:22px;right:22px;z-index:55;width:56px;height:56px;border-radius:50%;background:var(--teal-deep);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.28);border:none;cursor:pointer;}
+  @media (max-width:600px){ .a11y-btn{ right:14px; bottom:14px; width:50px;height:50px; } }
+  .a11y-panel{position:fixed;bottom:86px;right:22px;z-index:56;background:#fff;color:var(--ink);width:280px;max-width:calc(100vw - 28px);border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,.25);padding:18px;display:none;}
+  .a11y-panel.open{display:block;}
+  @media (max-width:600px){ .a11y-panel{ right:14px; bottom:72px; } }
+  .a11y-panel h4{margin:0 0 12px;font-size:15px;font-weight:800;}
+  .a11y-size-row{display:flex;gap:8px;margin-bottom:14px;}
+  .a11y-size-row button{flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;padding:8px 0;font-weight:800;font-size:15px;cursor:pointer;color:var(--ink);}
+  .a11y-size-row button.active{border-color:var(--teal);color:var(--teal-deep);}
+  .a11y-toggle{display:block;width:100%;text-align:center;border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px 0;font-weight:700;font-size:14px;margin-bottom:10px;cursor:pointer;color:var(--ink);}
+  .a11y-toggle.active{border-color:var(--teal);background:#EAFAFB;color:var(--teal-deep);}
+  .a11y-reset{display:block;width:100%;text-align:center;border:2px solid var(--pink);background:#fff;border-radius:10px;padding:10px 0;font-weight:700;font-size:14px;cursor:pointer;color:var(--pink);}
+
+  :focus-visible{ outline:3px solid var(--pink); outline-offset:2px; }
+  .skip-link{position:absolute;top:-60px;right:12px;background:var(--pink);color:#fff;padding:10px 18px;border-radius:0 0 8px 8px;font-weight:800;z-index:100;transition:top .15s ease;}
+  .skip-link:focus{top:0;}
+
+  .a11y-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:80;display:none;align-items:center;justify-content:center;padding:20px;}
+  .a11y-modal-overlay.open{display:flex;}
+  .a11y-modal{background:#fff;color:var(--ink);max-width:560px;width:100%;max-height:80vh;overflow-y:auto;border-radius:16px;padding:28px;position:relative;}
+  .a11y-modal h3{color:var(--pink);font-size:calc(22px * var(--fs,1));margin-bottom:14px;}
+  .a11y-modal p{font-size:calc(15px * var(--fs,1));line-height:1.8;color:var(--ink-soft);margin:0 0 12px;}
+  .a11y-modal-close{position:absolute;top:14px;left:14px;background:none;border:none;font-size:26px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">דלגו לתוכן הראשי</a>
+
+<header>
+  <div class="wrap navrow">
+    <div class="brand">
+      <div class="logo-badge"><img src="images/logo-nav.jpg" alt="מתוק בשכונה"></div>
+      <span>מתוק בשכונה</span>
+    </div>
+    <nav class="links">
+      <a href="#about">מי אני</a>
+      <a href="#menu">תפריט</a>
+      <a href="#press">בתקשורת</a>
+      <a href="#testimonials">לקוחות ממליצים</a>
+      <a href="#gallery">גלריה</a>
+      <a href="#contact">יצירת קשר</a>
+      <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener" aria-label="אינסטגרם" class="no-a11y-highlight" style="display:flex;align-items:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.facebook.com/mtwq.bskwnh/" target="_blank" rel="noopener" aria-label="פייסבוק" class="no-a11y-highlight" style="display:flex;align-items:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.25-1.5 1.5-1.5H16.5V4.3c-.27-.04-1.2-.12-2.28-.12-2.26 0-3.8 1.38-3.8 3.9V10.5H8v3h2.42V21h3.08z"/></svg>
+      </a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button type="button" id="cartBtn" aria-label="עגלת הזמנה" style="position:relative;display:flex;align-items:center;background:none;border:none;cursor:pointer;color:inherit;padding:0;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span id="cartBadge" style="display:none;position:absolute;top:-8px;left:-10px;background:var(--pink);color:#fff;font-size:10px;font-weight:800;border-radius:999px;min-width:16px;height:16px;padding:0 4px;align-items:center;justify-content:center;">0</span>
+      </button>
+      <a class="navcta no-a11y-highlight" href="https://wa.me/972585049194" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a>
+      <button type="button" class="hamburger" id="hamburgerBtn" aria-label="תפריט" aria-expanded="false">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="https://wa.me/972585049194" target="_blank" rel="noopener" class="no-a11y-highlight" style="color:var(--pink);font-weight:800;">צרו קשר בוואטסאפ</a>
+    <a href="#about">מי אני</a>
+    <a href="#menu">תפריט</a>
+    <a href="#press">בתקשורת</a>
+    <a href="#testimonials">לקוחות ממליצים</a>
+    <a href="#gallery">גלריה</a>
+    <a href="#contact">יצירת קשר</a>
+    <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener">אינסטגרם</a>
+    <a href="https://www.facebook.com/mtwq.bskwnh/" target="_blank" rel="noopener">פייסבוק</a>
+  </div>
+</header>
+
+<section class="hero" id="main-content">
+  <div class="wrap hero-grid">
+    <div class="hero-media-badge"><img src="images/logo-hero.png" alt="לוגו מתוק בשכונה"></div>
+    <div class="hero-location">מאפייה שכונתית · רמת גן</div>
+    <h1>מתוק בשכונה</h1>
+    <p class="lede">קינוחים, עוגות ועוגיות דלי פחמימה — ללא סוכר וללא גלוטן, ישר מהלב של השכונה אליכם.</p>
+    <div class="hero-actions">
+      <a class="btn-primary no-a11y-highlight" href="https://wa.me/972585049194" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a>
+      <a class="btn-outline no-a11y-highlight" href="#menu">לתפריט המלא</a>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,32 C240,64 480,0 720,20 C960,40 1200,64 1440,28 L1440,60 L0,60 Z" fill="var(--cream)"/>
+  </svg>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <h2>הסיפור מאחורי מתוק בשכונה</h2>
+      <p>מאז ומתמיד הייתה לי תשוקה לאפייה. אני אופה מקצועית כבר 8 שנים, ואלפי לקוחות נהנו מהמוצרים שלי.</p>
+      <p>אני מאובחנת עם סוכרת נעורים כבר 10 שנים — ובשנים האלו למדתי לשלב את האהבה שלי למתוקים יחד עם הדרישות התזונתיות של הסוכרת. פיתחתי מתכונים המשלבים חומרי גלם טריים ואיכותיים, קמחים דלי פחמימה וממתיקים ללא ערך גליקמי.</p>
+      <p>הצלחתי למצוא מענה לאוכלוסיות עם הגבלה תזונתית שרק רוצות ליהנות ממשהו מתוק.</p>
+      <div class="callout">כל מוצר שתראו באתר הוא דל פחמימה וללא גלוטן!</div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>8</b><span>שנות ניסיון כאופה מקצועית</span></div>
+      <div class="stat"><b>אלפי</b><span>לקוחות מרוצים</span></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="values">
+      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>דל פחמימה</div>
+      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ללא גלוטן</div>
+      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ללא ערך גליקמי</div>
+      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>חומרי גלם טריים</div>
+    </div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="wrap">
+    <h2>התפריט שלנו</h2>
+    <p class="sub">כל המוצרים דלי פחמימה וללא גלוטן. מוצרים המסומנים ב"קיטו" מתאימים גם לתזונה קטוגנית.</p>
+    <div class="tabs" id="tabs"></div>
+    <div id="menuLists"></div>
+  </div>
+</section>
+
+<section class="press" id="press">
+  <div class="wrap">
+    <h2>בתקשורת</h2>
+    <p class="sub">ארבל התארחה בערוץ 13 וסיפרה את הסיפור מאחורי מתוק בשכונה</p>
+    <a class="video-card no-a11y-highlight" href="https://www.youtube.com/watch?v=HH8-BHuZyf0" target="_blank" rel="noopener">
+      <span class="play-circle">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+      </span>
+      <span class="video-card-text">
+        <strong>ארבל, מתוק בשכונה — הכתבה בערוץ 13</strong>
+        <span>לחצו לצפייה בראיון ביוטיוב</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <h2>מה הלקוחות אומרים</h2>
+    <p class="sub">כמה מילים מלקוחות שהזמינו מאיתנו</p>
+    <div class="testi-grid" id="testiGrid"></div>
+  </div>
+</section>
+
+<section class="gallery" id="gallery">
+  <div class="wrap">
+    <h2>גלריה</h2>
+    <p class="sub">הצצה למוצרים שלנו</p>
+    <div class="gallery-grid">
+      <figure class="photo"><img src="images/gallery-01.jpg" alt="קאפקייקס עם קצפת רוזט"><figcaption>קאפקייקס רוזט</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-02.jpg" alt="מארז שוקולדי"><figcaption>מארז שוקולדי</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-03.jpg" alt="עוגת פטיסייר תותים"><figcaption>עוגת פטיסייר תותים</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-04.jpg" alt="בראוניז עשירים"><figcaption>בראוניז עשירים</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-05.jpg" alt="שושני מרנג"><figcaption>שושני מרנג</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-06.jpg" alt="עוגת שוקולד ליום הולדת"><figcaption>עוגת יום הולדת שוקולד</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-07.jpg" alt="מארז קראנצ׳י"><figcaption>מארז קראנצ׳י</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-08.jpg" alt="קינוחי פבלובה בציפוי פירות יער"><figcaption>פבלובה פירות יער</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-09.jpg" alt="עוגת יום הולדת פיקאצ׳ו"><figcaption>עוגת יום הולדת מעוצבת</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-10.jpg" alt="עוגת מספרים שוקולד עם מקרונים"><figcaption>עוגת מספרים שוקולד</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-11.jpg" alt="עוגת לב בשני צבעים"><figcaption>עוגת לב מעוצבת</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-12.jpg" alt="עוגת לב בקרם וניל"><figcaption>עוגת לב קרם</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-13.jpg" alt="פאדג׳ ובראוניז בתצוגה"><figcaption>פאדג׳ ובראוניז</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-14.jpg" alt="עוגת יום הולדת בעיצוב אנימה"><figcaption>עוגת יום הולדת מעוצבת</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-15.jpg" alt="עוגות בחושות בתבניות"><figcaption>עוגות בחושות</figcaption></figure>
+      <figure class="photo"><img src="images/gallery-16.jpg" alt="קרם ברולה בתבניות אישיות"><figcaption>קרם ברולה</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>מוכנים להזמין?</h2>
+    <p>כתבו לנו בוואטסאפ ונשמח לעזור לכם לבחור בדיוק את מה שמתאים לכם.</p>
+    <p style="font-size:calc(14.5px * var(--fs,1));color:#FFE3EE;max-width:52ch;margin:0 auto 20px;">ניתן לאסוף עצמאית מהמאפייה, או לקבל משלוח בתשלום (בהתאם למרחק). מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
+    <a class="btn-primary no-a11y-highlight" href="https://wa.me/972585049194" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a>
+    <div class="phone">058-5049194</div>
+    <div style="color:#FFE3EE;font-size:calc(14px * var(--fs,1));margin-top:6px;">מתוק בשכונה · רמת גן</div>
+    <div style="margin-top:18px;">
+      <div style="color:#fff;font-weight:700;font-size:calc(15px * var(--fs,1));margin-bottom:12px;">עקבו אחרינו באינסטגרם ובפייסבוק</div>
+      <div style="display:flex;gap:14px;justify-content:center;">
+        <a href="https://www.facebook.com/mtwq.bskwnh/" target="_blank" rel="noopener" aria-label="פייסבוק" class="no-a11y-highlight" style="width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--pink-deep);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.25-1.5 1.5-1.5H16.5V4.3c-.27-.04-1.2-.12-2.28-.12-2.26 0-3.8 1.38-3.8 3.9V10.5H8v3h2.42V21h3.08z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener" aria-label="אינסטגרם" class="no-a11y-highlight" style="width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--pink-deep);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © מתוק בשכונה, רמת גן — כל הזכויות שמורות
+  <div style="margin-top:8px;font-size:calc(12.5px * var(--fs,1));">
+    <a href="#" id="openA11yStatement" style="text-decoration:underline;">הצהרת נגישות</a>
+    &nbsp;·&nbsp;
+    <a href="#" id="openPrivacyStatement" style="text-decoration:underline;">הצהרת פרטיות</a>
+  </div>
+</footer>
+
+<div class="a11y-modal-overlay" id="statementOverlay">
+  <div class="a11y-modal">
+    <button type="button" class="a11y-modal-close" id="statementClose" aria-label="סגירה">&times;</button>
+    <h3 id="statementTitle"></h3>
+    <div id="statementBody"></div>
+  </div>
+</div>
+
+<div class="a11y-modal-overlay" id="cartOverlay">
+  <div class="a11y-modal">
+    <button type="button" class="a11y-modal-close" id="cartClose" aria-label="סגירה">&times;</button>
+    <h3>ההזמנה שלי</h3>
+    <div id="cartItems"></div>
+    <div id="cartEmpty" style="color:var(--ink-soft);font-size:calc(15px * var(--fs,1));">העגלה שלך ריקה. הוסיפו מוצרים מהתפריט 🙂</div>
+    <div id="cartTotalRow" style="display:none;border-top:1px solid var(--line);margin-top:14px;padding-top:14px;font-weight:800;font-size:calc(16px * var(--fs,1));">
+      סה"כ משוער: <span id="cartTotal">0</span> ₪
+    </div>
+    <div id="cartFulfillment" style="display:none;border-top:1px solid var(--line);margin-top:14px;padding-top:14px;">
+      <div style="font-weight:800;font-size:calc(14.5px * var(--fs,1));margin-bottom:10px;">איך תרצו לקבל את ההזמנה?</div>
+      <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:calc(14px * var(--fs,1));cursor:pointer;">
+        <input type="radio" name="fulfillment" value="pickup" checked> איסוף עצמי
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:calc(14px * var(--fs,1));cursor:pointer;">
+        <input type="radio" name="fulfillment" value="delivery"> משלוח בתשלום (לפי מרחק)
+      </label>
+      <p style="font-size:calc(12px * var(--fs,1));color:var(--ink-soft);margin-top:8px;">מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
+      <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה (לנוחיות מי שמקבל)</label>
+      <input type="text" id="cartRecipientName" placeholder="לדוגמה: שם המקבל/ת או מוען המתנה" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
+    </div>
+    <p style="font-size:calc(12.5px * var(--fs,1));color:var(--ink-soft);margin-top:6px;">* המחיר הסופי, כולל התאמות טעם וגודל, יאושר מולכם בשיחת הוואטסאפ.</p>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button type="button" id="cartClear" style="flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px 0;font-weight:700;cursor:pointer;color:var(--ink-soft);">נקה עגלה</button>
+      <a id="cartCheckout" href="#" target="_blank" rel="noopener" class="no-a11y-highlight" style="flex:2;text-align:center;background:var(--pink);color:#fff;border-radius:10px;padding:10px 0;font-weight:800;text-decoration:none;">שליחת ההזמנה בוואטסאפ</a>
+    </div>
+  </div>
+</div>
+
+<div class="photo-modal-overlay" id="photoOverlay">
+  <div class="photo-modal">
+    <button type="button" class="photo-modal-close" id="photoClose" aria-label="סגירה">&times;</button>
+    <div id="photoContent"></div>
+  </div>
+</div>
+
+<div class="a11y-modal-overlay" id="nutriOverlay">
+  <div class="a11y-modal">
+    <button type="button" class="a11y-modal-close" id="nutriClose" aria-label="סגירה">&times;</button>
+    <h3 id="nutriTitle"></h3>
+    <div id="nutriBody"></div>
+  </div>
+</div>
+
+<button class="a11y-btn" id="a11yBtn" aria-label="תפריט נגישות" aria-expanded="false">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12,2c1.1,0,2,0.9,2,2s-0.9,2-2,2s-2-0.9-2-2S10.9,2,12,2z M18.8,17.1l-1.8-8.9c-0.1-0.7-0.6-1.2-1.3-1.2H9.3H8 c-0.6,0-1,0.4-1,1s0.4,1,1,1h1.4l0.5,2.6C7.4,12.4,6,14.5,6,17c0,3.3,2.7,6,6,6c2.2,0,4.2-1.2,5.2-3.1c0.3-0.5,0.1-1.1-0.4-1.4 c-0.5-0.3-1.1-0.1-1.4,0.4C14.7,20.1,13.4,21,12,21c-2.2,0-4-1.8-4-4c0-1.4,0.7-2.6,1.8-3.3l0.6,2.9C10.6,17.8,11.3,18,12,18 c0.5,0,0.9-0.4,0.9-0.9L12.6,15h3.7l0.8,3.9c0.1,0.5,0.5,0.8,1,0.8c0.1,0,0.1,0,0.2,0C18.7,19.6,19,19,18.8,17.1z"/></svg>
+</button>
+
+<div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="הגדרות נגישות">
+  <h4>גודל טקסט</h4>
+  <div class="a11y-size-row" id="a11ySizeRow">
+    <button type="button" data-size="-1">-A</button>
+    <button type="button" data-size="0" class="active">A</button>
+    <button type="button" data-size="1">+A</button>
+    <button type="button" data-size="2">++A</button>
+  </div>
+  <button type="button" class="a11y-toggle" data-toggle="contrast">ניגודיות גבוהה</button>
+  <button type="button" class="a11y-toggle" data-toggle="links">הדגשת קישורים</button>
+  <button type="button" class="a11y-toggle" data-toggle="readable">גופן קריא</button>
+  <button type="button" class="a11y-toggle" data-toggle="noanim">עצירת אנימציות</button>
+  <button type="button" class="a11y-reset" id="a11yReset">איפוס הגדרות נגישות</button>
+</div>
+
+<a class="float-wa no-a11y-highlight" href="https://wa.me/972585049194" target="_blank" rel="noopener" aria-label="יצירת קשר בוואטסאפ">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.2-1.77 1.27-.45.07-1.02.1-1.65-.1a15 15 0 01-1.5-.56 12 12 0 01-4.6-4.06c-.34-.46-.7-1-.96-1.58a3.4 3.4 0 01-.32-1.5c.02-.53.3-1.04.6-1.35.15-.16.36-.24.56-.24h.4c.14 0 .32-.02.5.38.19.42.63 1.46.68 1.57.06.11.1.24.02.4-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.25.62 1.04 1.34 1.68.92.82 1.7 1.08 1.95 1.2.25.12.4.1.55-.06.15-.16.63-.72.8-.97.17-.25.34-.2.56-.12.22.08 1.42.67 1.66.8.24.12.4.18.46.29.06.11.06.62-.16 1.23z"/></svg>
+</a>
+
+<script>
+(function(){
+  var cart = {};
+  var WA_NUMBER = '972585049194';
+
+  function parsePrice(str){
+    var m = String(str).match(/(\d+(?:\.\d+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  }
+
+  function updateBadges(){
+    var totalQty = 0;
+    Object.keys(cart).forEach(function(id){ totalQty += cart[id].qty; });
+    var badge = document.getElementById('cartBadge');
+    if (totalQty > 0){
+      badge.textContent = totalQty;
+      badge.style.display = 'flex';
+    } else {
+      badge.style.display = 'none';
+    }
+    document.querySelectorAll('.cart-qty-badge').forEach(function(el){
+      var baseId = el.id.replace('qty-', '');
+      var total = 0;
+      Object.keys(cart).forEach(function(k){
+        if (k === baseId || k.indexOf(baseId + '-') === 0){ total += cart[k].qty; }
+      });
+      if (total > 0){ el.textContent = 'בהזמנה: ' + total; el.style.display = 'inline'; }
+      else { el.style.display = 'none'; }
+    });
+  }
+
+  function renderCart(){
+    var itemsEl = document.getElementById('cartItems');
+    var emptyEl = document.getElementById('cartEmpty');
+    var totalRow = document.getElementById('cartTotalRow');
+    var fulfillmentEl = document.getElementById('cartFulfillment');
+    var totalEl = document.getElementById('cartTotal');
+    var checkoutBtn = document.getElementById('cartCheckout');
+    var ids = Object.keys(cart);
+
+    itemsEl.innerHTML = '';
+    if (ids.length === 0){
+      emptyEl.style.display = 'block';
+      totalRow.style.display = 'none';
+      fulfillmentEl.style.display = 'none';
+      checkoutBtn.style.pointerEvents = 'none';
+      checkoutBtn.style.opacity = '.5';
+      return;
+    }
+    emptyEl.style.display = 'none';
+    fulfillmentEl.style.display = 'block';
+    checkoutBtn.style.pointerEvents = 'auto';
+    checkoutBtn.style.opacity = '1';
+
+    var total = 0;
+    ids.forEach(function(id){
+      var it = cart[id];
+      var unit = parsePrice(it.price);
+      if (unit != null) total += unit * it.qty;
+
+      var row = document.createElement('div');
+      row.className = 'cart-row';
+      row.innerHTML =
+        '<div class="cart-row-name">' + it.name + '<br><span class="cart-row-price">' + it.price + '</span></div>' +
+        '<div class="cart-stepper">' +
+          '<button type="button" data-act="minus" data-id="' + id + '">−</button>' +
+          '<span>' + it.qty + '</span>' +
+          '<button type="button" data-act="plus" data-id="' + id + '">+</button>' +
+        '</div>' +
+        '<button type="button" class="cart-remove" data-act="remove" data-id="' + id + '" aria-label="הסרה">&times;</button>';
+      itemsEl.appendChild(row);
+    });
+
+    totalEl.textContent = total;
+    totalRow.style.display = 'block';
+
+    itemsEl.querySelectorAll('button[data-act]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-id');
+        var act = btn.getAttribute('data-act');
+        if (act === 'plus') cart[id].qty += 1;
+        else if (act === 'minus'){ cart[id].qty -= 1; if (cart[id].qty <= 0) delete cart[id]; }
+        else if (act === 'remove') delete cart[id];
+        updateBadges();
+        renderCart();
+        buildCheckoutLink();
+      });
+    });
+  }
+
+  function buildCheckoutLink(){
+    var ids = Object.keys(cart);
+    var lines = ids.map(function(id){
+      var it = cart[id];
+      return '- ' + it.name + ' x' + it.qty + ' (' + it.price + ')';
+    });
+    var total = 0;
+    ids.forEach(function(id){
+      var unit = parsePrice(cart[id].price);
+      if (unit != null) total += unit * cart[id].qty;
+    });
+    var fulfillmentInput = document.querySelector('input[name="fulfillment"]:checked');
+    var fulfillmentText = (fulfillmentInput && fulfillmentInput.value === 'delivery')
+      ? 'משלוח (בתשלום, לפי מרחק — נשמח לתאם כתובת ומועד)'
+      : 'איסוף עצמי';
+    var recipientEl = document.getElementById('cartRecipientName');
+    var recipientName = recipientEl ? recipientEl.value.trim() : '';
+    var msg = 'היי! אשמח להזמין:\n' + lines.join('\n');
+    if (total > 0) msg += '\nסה"כ משוער: ' + total + ' ₪';
+    msg += '\nאופן קבלה: ' + fulfillmentText;
+    if (recipientName) msg += '\nשם למילוי בהזמנה: ' + recipientName;
+    msg += '\nתודה!';
+    document.getElementById('cartCheckout').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg));
+  }
+
+  window.MatokCart = {
+    add: function(id, name, price){
+      if (cart[id]) cart[id].qty += 1;
+      else cart[id] = { name: name, price: price, qty: 1 };
+      updateBadges();
+      renderCart();
+      buildCheckoutLink();
+    }
+  };
+
+  var cartBtn = document.getElementById('cartBtn');
+  var cartOverlay = document.getElementById('cartOverlay');
+  var cartClose = document.getElementById('cartClose');
+  var cartClear = document.getElementById('cartClear');
+
+  cartBtn.addEventListener('click', function(){
+    renderCart();
+    cartOverlay.classList.add('open');
+  });
+  cartClose.addEventListener('click', function(){ cartOverlay.classList.remove('open'); });
+  cartOverlay.addEventListener('click', function(e){ if (e.target === cartOverlay) cartOverlay.classList.remove('open'); });
+  cartClear.addEventListener('click', function(){
+    cart = {};
+    updateBadges();
+    renderCart();
+    buildCheckoutLink();
+  });
+  document.querySelectorAll('input[name="fulfillment"]').forEach(function(r){
+    r.addEventListener('change', buildCheckoutLink);
+  });
+  document.getElementById('cartRecipientName').addEventListener('input', buildCheckoutLink);
+
+  renderCart();
+})();
+
+(function(){
+  var overlay = document.getElementById('photoOverlay');
+  var content = document.getElementById('photoContent');
+  var closeBtn = document.getElementById('photoClose');
+
+  window.MatokPhoto = {
+    open: function(name, image){
+      if (!image){
+        content.innerHTML = '<div class="photo-modal-placeholder"><h4 style="margin:0 0 8px;color:var(--ink);">' + name + '</h4>התמונה של המוצר תתווסף בקרוב 🙂</div>';
+        overlay.classList.add('open');
+        return;
+      }
+      var items = Array.isArray(image) ? image : [{ src: image, label: null }];
+      var html = '';
+      items.forEach(function(it, idx){
+        html += '<img src="' + it.src + '" alt="' + name + (it.label ? ' - ' + it.label : '') + '">';
+        html += '<div class="photo-modal-body"><h4>' + name + (it.label ? ' — ' + it.label : '') + '</h4></div>';
+      });
+      content.innerHTML = html;
+      overlay.classList.add('open');
+    }
+  };
+
+  closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.classList.remove('open'); });
+})();
+
+(function(){
+  var overlay = document.getElementById('nutriOverlay');
+  var titleEl = document.getElementById('nutriTitle');
+  var bodyEl = document.getElementById('nutriBody');
+  var closeBtn = document.getElementById('nutriClose');
+
+  window.MatokNutrition = {
+    open: function(name, n){
+      titleEl.textContent = 'ערכים תזונתיים — ' + name;
+      var variants = Array.isArray(n) ? n : [n];
+      var html = '';
+      variants.forEach(function(v){
+        var unitLabel = v.unit || 'יחידה';
+        if (v.label) html += '<div style="font-weight:800;margin-top:14px;color:var(--pink);">' + v.label + '</div>';
+        html +=
+          '<table class="nutri-table">' +
+            '<tr><th></th><th>ל' + unitLabel + '</th><th>ל-100 גרם</th></tr>' +
+            '<tr><td>קלוריות (אנרגיה)</td><td>' + v.perUnit.cal + '</td><td>' + v.per100g.cal + '</td></tr>' +
+            '<tr><td>חלבונים (גרם)</td><td>' + v.perUnit.protein + '</td><td>' + v.per100g.protein + '</td></tr>' +
+            '<tr><td>פחמימות (גרם)</td><td>' + v.perUnit.carbs + '</td><td>' + v.per100g.carbs + '</td></tr>' +
+            '<tr><td>שומנים (גרם)</td><td>' + v.perUnit.fat + '</td><td>' + v.per100g.fat + '</td></tr>' +
+          '</table>';
+      });
+      bodyEl.innerHTML = html;
+      overlay.classList.add('open');
+    }
+  };
+
+  closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.classList.remove('open'); });
+})();
+
+(function(){
+  var hbtn = document.getElementById('hamburgerBtn');
+  var menu = document.getElementById('mobileMenu');
+  hbtn.addEventListener('click', function(){
+    var isOpen = menu.classList.toggle('open');
+    hbtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  menu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      menu.classList.remove('open');
+      hbtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var categories = [
+    { id:'sets', label:'מארזים', items:[
+      {name:'מארז סוויט', price:'210 ₪', desc:'4 ריבועי בראוניז, 8 עוגיות אמסטרדם, 3 מרנג על מקל, 5 קייקפופס', image:'images/product-16.jpg'},
+      {name:'מארז מאנצ׳', price:'190 ₪', desc:'6 עוגיות שוקולד ציפס ומלח ים, 6 עוגיות אמסטרדם, 3 קייקפופס, 3 מרנג', image:'images/product-18.jpg'},
+      {name:'מארז קצר ולעניין', price:'210 ₪', desc:'8 עוגיות שוקולד ציפס, 10 מקרונים (שוקולד/וניל/קפה), עוגה בחושה קטנה', image:'images/product-19.jpg'},
+      {name:'מארז שוקולדי', price:'230 ₪', desc:'6 עוגיות אמסטרדם, 6 עוגיות שוקולד במילוי בוטנים, 4 ריבועי בראוניז, 4 קייקפופס', image:'images/gallery-02.jpg'},
+      {name:'מארז קיטו', price:'165 ₪', badge:'חדש', desc:'3 קרם ברולה/מוסים, 10 עוגיות דיונון/שושני מרנג, עוגה בחושה קטנה', image:'images/product-15.jpg'},
+      {name:'מארז פיצוץ', price:'240 ₪', desc:'עוגה בחושה קטנה, 6 עוגיות שוקולד במילוי חמאת בוטנים, 5 קייקפופס, 4 ריבועי בראוניז, 3 מרנג', image:'images/product-17.jpg'}
+    ]},
+    { id:'cakes', label:'עוגות מעוצבות', items:[
+      {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg'},
+      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 120 ₪', price:120},{label:'A4 – 150 ₪', price:150}]},
+      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 150 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
+    ]},
+    { id:'cookies', label:'עוגיות ומאפים', items:[
+      {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 70 ₪', price:70},{label:'8 יח׳ – 90 ₪', price:90},{label:'12 יח׳ – 120 ₪', price:120}], image:[
+        {label:'שוקולד ציפס', src:'images/product-07.jpg'},
+        {label:'שוקולד במילוי בוטנים', src:'images/product-08.jpg'},
+        {label:'אמסטרדם', src:'images/product-21.jpg'}
+      ], nutrition:[
+        {label:'שוקולד ציפס', unit:'יחידה', perUnit:{cal:185, protein:4.17, carbs:5, fat:16.57}, per100g:{cal:368, protein:8.29, carbs:9, fat:32.92}},
+        {label:'אמסטרדם', unit:'יחידה', perUnit:{cal:195, protein:5.24, carbs:7, fat:16.8}, per100g:{cal:347, protein:9.29, carbs:13, fat:29.82}},
+        {label:'שוקולד במילוי בוטנים', unit:'יחידה', perUnit:{cal:192, protein:4.58, carbs:5, fat:17.86}, per100g:{cal:369, protein:8.8, carbs:9, fat:34.35}}
+      ]},
+      {name:'בראוניז', price:'50 ₪ (4 יח׳) / 90 ₪ (9 יח׳)', desc:'ריבועי בראוניז עשירים בשוקולד', carbs:'7 גרם פחמימה לריבוע', image:'images/gallery-04.jpg', priceOptions:[{label:'50 ₪ (4 יח׳)', price:50},{label:'90 ₪ (9 יח׳)', price:90}], nutrition:{unit:'ריבוע', perUnit:{cal:239, protein:6.28, carbs:7, fat:21.46}, per100g:{cal:316, protein:8.32, carbs:9, fat:28.42}}},
+      {name:'פאדג׳', price:'30 ₪ / 65 ₪', badge:'קיטו', desc:'חתיכות פאדג׳ שוקולד עשירות', carbs:'3 גרם פחמימה ליחידה', image:'images/product-12.jpg', priceOptions:[{label:'4 יח׳ – 30 ₪', price:30},{label:'9 יח׳ – 65 ₪', price:65}], nutrition:{unit:'יחידה', perUnit:{cal:117, protein:3.2, carbs:2, fat:10.07}, per100g:{cal:600, protein:16.46, carbs:11, fat:51.77}}},
+      {name:'קייקפופס', price:'10 ₪ / 45 ₪ / 90 ₪', desc:'ציפוי שוקולד מריר או לבן, על מקל', carbs:'5–6 גרם פחמימה ליחידה, בהתאם לציפוי', image:'images/product-05.jpg', priceOptions:[{label:'1 יח׳ – 10 ₪', price:10},{label:'5 יח׳ – 45 ₪', price:45},{label:'10 יח׳ – 90 ₪', price:90}], nutrition:[
+        {label:'ציפוי שוקולד מריר', unit:'יחידה', perUnit:{cal:187, protein:3.55, carbs:5, fat:16.72}, per100g:{cal:425, protein:8.07, carbs:12, fat:38.01}},
+        {label:'ציפוי שוקולד לבן', unit:'יחידה', perUnit:{cal:190, protein:3.63, carbs:6, fat:16.92}, per100g:{cal:431, protein:8.25, carbs:13, fat:38.46}}
+      ]},
+      {name:'עוגיות חמאה', price:'30 ₪ (5 יח׳) / 55 ₪ (10 יח׳)', badge:'קיטו', desc:'עוגיות חמאה קלאסיות ופריכות', carbs:'2 גרם פחמימה ליחידה', image:'images/product-04.jpg', priceOptions:[{label:'30 ₪ (5 יח׳)', price:30},{label:'55 ₪ (10 יח׳)', price:55}], nutrition:{unit:'יחידה', perUnit:{cal:68, protein:1.92, carbs:2, fat:5.88}, per100g:{cal:346, protein:9.77, carbs:9, fat:29.93}}},
+      {name:'מקרונים', price:'80 ₪', desc:'טעמי שוקולד, וניל או קפה', carbs:'2 גרם פחמימה ליחידה', image:'images/product-20.jpg', nutrition:{unit:'יחידה', perUnit:{cal:51, protein:1.74, carbs:2, fat:3.86}, per100g:{cal:227, protein:7.69, carbs:10, fat:17.06}}}
+    ]},
+    { id:'creams', label:'קרמים ומוסים', items:[
+      {name:'קרם ברולה', price:'20 ₪ / 110 ₪ (6 יח׳)', badge:'קיטו', desc:'קרם וניל קלאסי עם שכבת קרמל פריכה', carbs:'4 גרם פחמימה לתבנית', image:'images/gallery-16.jpg', priceOptions:[{label:'20 ₪ (יחידה)', price:20},{label:'110 ₪ (6 יח׳)', price:110}], nutrition:{unit:'תבנית', perUnit:{cal:220, protein:5.3, carbs:4, fat:19.51}, per100g:{cal:183, protein:4.42, carbs:3, fat:16.26}}},
+      {name:'מוסים', price:'20 ₪ / 110 ₪ (6 יח׳)', badge:'קיטו', desc:'טעמים: פררו רושה, רפאלו ופטיסייר', carbs:'2 גרם פחמימה לתבנית', image:'images/product-13.jpg', priceOptions:[{label:'20 ₪ (יחידה)', price:20},{label:'110 ₪ (6 יח׳)', price:110}], nutrition:{unit:'יחידה', perUnit:{cal:362, protein:4.24, carbs:3, fat:36.76}, per100g:{cal:318, protein:3.73, carbs:3, fat:32.34}}},
+      {name:'פבלובה', price:'25 ₪ / 140 ₪ (6 יח׳)', desc:'מתכון מסורתי בגרסה דלת פחמימה', carbs:'1 גרם פחמימה ליחידה', image:'images/product-09.jpg', priceOptions:[{label:'25 ₪ (יחידה)', price:25},{label:'140 ₪ (6 יח׳)', price:140}], nutrition:{unit:'יחידה', perUnit:{cal:153, protein:2.56, carbs:1, fat:15.23}, per100g:{cal:222, protein:3.71, carbs:2, fat:22.07}}},
+      {name:'שושני מרנג', price:'30 ₪ (5 יח׳) / 55 ₪ (10 יח׳)', badge:'קיטו', desc:'מרנג קליל בצורת שושנים', carbs:'0 גרם פחמימה ליחידה', image:'images/gallery-05.jpg', priceOptions:[{label:'30 ₪ (5 יח׳)', price:30},{label:'55 ₪ (10 יח׳)', price:55}], nutrition:{unit:'יחידה', perUnit:{cal:3, protein:0.72, carbs:0, fat:0.01}, per100g:{cal:25, protein:5.29, carbs:0, fat:0.08}}},
+      {name:'מרנג על מקל', price:'40 ₪ (5 יח׳) / 75 ₪ (10 יח׳)', badge:'קיטו', desc:'מרנג פריך על מקל, אידאלי למארזים', carbs:'0 גרם פחמימה ליחידה', image:'images/product-14.jpg', priceOptions:[{label:'40 ₪ (5 יח׳)', price:40},{label:'75 ₪ (10 יח׳)', price:75}], nutrition:{unit:'יחידה', perUnit:{cal:3, protein:0.72, carbs:0, fat:0.01}, per100g:{cal:25, protein:5.29, carbs:0, fat:0.08}}},
+      {name:'מיני-דונאטס', price:'50 ₪ (6 יח׳) / 100 ₪ (12 יח׳)', desc:'במילוי שוקולד מריר או לבן', carbs:'4 גרם פחמימה ליחידה', image:'images/product-03.jpg', priceOptions:[{label:'50 ₪ (6 יח׳)', price:50},{label:'100 ₪ (12 יח׳)', price:100}], nutrition:{unit:'יחידה', perUnit:{cal:112, protein:2.11, carbs:4, fat:9.65}, per100g:{cal:371, protein:7, carbs:13, fat:31.99}}}
+    ]},
+    { id:'homecakes', label:'עוגות ביתיות', items:[
+      {name:'עוגה בחושה', price:'קטנה 50 ₪ / גדולה 70 ₪', badge:'קיטו', desc:'טעמי שוקולד, וניל וקפה, או בננות ותפוחים מקורמלים', carbs:'3–5 גרם פחמימה לפרוסה, בהתאם לטעם', image:'images/gallery-15.jpg', priceOptions:[{label:'קטנה – 50 ₪', price:50},{label:'גדולה – 70 ₪', price:70}], nutrition:{unit:'פרוסה', perUnit:{cal:274, protein:4.85, carbs:3, fat:26.73}, per100g:{cal:472, protein:8.34, carbs:6, fat:45.99}}},
+      {name:'עוגת גבינה (אינגליש קייק)', price:'100 ₪', badge:'קיטו', desc:'עוגת גבינה קלאסית בתבנית אינגליש קייק', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-10.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}},
+      {name:'עוגת שמרים שוקולד', price:'75 ₪', desc:'עוגת שמרים ממולאת שוקולד', carbs:'8 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-11.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:267, protein:6.69, carbs:8, fat:23.45}, per100g:{cal:422, protein:10.57, carbs:13, fat:37.07}}},
+      {name:'עוגת שמרים קינמון', price:'75 ₪', desc:'עוגת שמרים עם קינמון', carbs:'8 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-11.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:267, protein:6.69, carbs:8, fat:23.45}, per100g:{cal:422, protein:10.57, carbs:13, fat:37.07}}}
+    ]},
+    { id:'platters', label:'במות קינוחים', items:[
+      {name:'במת קינוחי כוסות', price:'150 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי טירמיסו, שוקולד, וניל לימוני ואגוזי לוז', carbs:'1 גרם פחמימה לכוס (חלבי) / 5 גרם (פרווה)', image:'images/product-02.jpg', nutrition:{unit:'כוס', perUnit:{cal:94, protein:0.56, carbs:1, fat:9.68}, per100g:{cal:250, protein:1.5, carbs:3, fat:25.81}}},
+      {name:'במת קאפקייקס', price:'150 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי שוקולד או וניל', carbs:'3 גרם פחמימה ליחידה', image:'images/product-06.jpg', nutrition:{unit:'יחידה', perUnit:{cal:189, protein:4.42, carbs:2, fat:18.02}, per100g:{cal:337, protein:7.87, carbs:4, fat:32.08}}}
+    ]}
+  ];
+
+  var tabsEl = document.getElementById('tabs');
+  var listsEl = document.getElementById('menuLists');
+
+  categories.forEach(function(cat, idx){
+    var tabBtn = document.createElement('button');
+    tabBtn.className = 'tab' + (idx === 0 ? ' active' : '');
+    tabBtn.type = 'button';
+    tabBtn.textContent = cat.label;
+    tabBtn.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.menu-list').forEach(function(l){ l.classList.remove('active'); });
+      tabBtn.classList.add('active');
+      document.getElementById('list-' + cat.id).classList.add('active');
+    });
+    tabsEl.appendChild(tabBtn);
+
+    var listDiv = document.createElement('div');
+    listDiv.className = 'menu-list' + (idx === 0 ? ' active' : '');
+    listDiv.id = 'list-' + cat.id;
+
+    cat.items.forEach(function(item, itemIdx){
+      var itemId = cat.id + '-' + itemIdx;
+      var thumbSrc = Array.isArray(item.image) ? (item.image[0] && item.image[0].src) : item.image;
+      var card = document.createElement('div');
+      card.className = 'item';
+      var priceBlock;
+      if (item.priceOptions){
+        priceBlock =
+          '<div class="price-options-row">' +
+            '<select class="price-select" data-id="' + itemId + '">' +
+              item.priceOptions.map(function(o){ return '<option value="' + o.price + '">' + o.label + '</option>'; }).join('') +
+            '</select>' +
+          '</div>';
+      } else {
+        priceBlock = '<div class="price">' + item.price + '</div>';
+      }
+      card.innerHTML =
+        (item.badge ? '<span class="badge">' + item.badge + '</span>' : '') +
+        (thumbSrc ? '<img class="item-thumb" src="' + thumbSrc + '" alt="' + item.name + '">' : '') +
+        '<h3 class="item-title-clickable">' + item.name + '</h3>' +
+        priceBlock +
+        '<p>' + item.desc + '</p>' +
+        (item.carbs ? '<div class="carbs">' + item.carbs + '</div>' : '') +
+        (item.nutrition ? '<div><a href="#" class="nutri-link" data-id="' + itemId + '">ערכים תזונתיים מלאים</a></div>' : '') +
+        '<div class="add-cart-row">' +
+          '<button type="button" class="add-cart-btn" data-id="' + itemId + '">הוסיפו להזמנה</button>' +
+          '<span class="cart-qty-badge" id="qty-' + itemId + '"></span>' +
+        '</div>';
+      var addBtn = card.querySelector('.add-cart-btn');
+      addBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        if (item.priceOptions){
+          var sel = card.querySelector('.price-select');
+          var opt = sel.options[sel.selectedIndex];
+          var cartId = itemId + '-' + opt.value + '-' + sel.selectedIndex;
+          window.MatokCart.add(cartId, item.name, opt.text);
+        } else {
+          window.MatokCart.add(itemId, item.name, item.price);
+        }
+      });
+      card.querySelector('.item-title-clickable').addEventListener('click', function(){
+        window.MatokPhoto.open(item.name, item.image || null);
+      });
+      if (thumbSrc){
+        card.querySelector('.item-thumb').addEventListener('click', function(){
+          window.MatokPhoto.open(item.name, item.image);
+        });
+      }
+      if (item.nutrition){
+        card.querySelector('.nutri-link').addEventListener('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          window.MatokNutrition.open(item.name, item.nutrition);
+        });
+      }
+      listDiv.appendChild(card);
+    });
+
+    listsEl.appendChild(listDiv);
+  });
+})();
+
+(function(){
+  var testimonials = [
+    { quote:'מפנקת את עצמי במתנה לכבוד יום הולדתי — מאפים ומתוקים ללא סוכר (על אמת!). ממליצה בחום על "מתוק בשכונה"! העסק מלא בלב, הבנה, ובכך שהלקוח תמיד יהיה מרוצה.', name:'לקוחה מרוצה' },
+    { quote:'חייבת לפרגן! אני עם סוכרת טרום הריון, וכבר חמישה חודשים בהריון שלא טעמתי משהו שמתקרב למתוק וטעים. כל מה שהזמנתי היה טעים להפליא — איזו מצווה עשית עם הידיים הזהב שלך!', name:'לקוחה מרוצה' },
+    { quote:'חייבת לפרגן! הזמנתי כמה מהמוצרים והכל טעים ברמות אחרות — הפאדג׳, עוגת שמרים שוקולד ועוגיות אמסטרדם. אין דברים כאלה, והשירות מעולה. מומלץ מומלץ מומלץ!', name:'הגר צוברי, פייסבוק' },
+    { quote:'הקינוחים היו טעימים מאוד, חוסלו לגמרי! תודה רבה, אמליץ עלייך בהחלט.', name:'לקוחה מרוצה' },
+    { quote:'וואו ארבל, זה היה נפלא, כל כך טעים. לא מאמינים שזה דל סוכר. כל הכבוד לך!', name:'לקוח מרוצה' },
+    { quote:'הזמנתי מארז פיצוץ ליום ההולדת של הילדה — הכל הגיע טרי וטעים, והיא עפה על הכל! תודה ארבל מקסימה שאת, נעימה ושירותית.', name:'לקוחה מרוצה' },
+    { quote:'כשרוצים להתפנק — "מתוק בשכונה" זה פינוק! גם טעים, גם ארוז יפה, גם שירות מקסים, עם חיוך. הבראוניז ממש פצצה, ממליצה בחום.', name:'לקוחה מרוצה' },
+    { quote:'קיבלתי את העוגות והעוגיות ונהנתי מכל ביס — טעים, וחשוב שזה גם מתאים לי מבחינת הסוכרת. אין עלייך!', name:'לקוחה מרוצה' },
+    { quote:'אני כבר 24 שנה סוכרתית, וזו הפעם הראשונה שאני אוכלת קינוחים דלי פחמימה כאלה טעימים! תודה שהמתקתם לנו את החג.', name:'לקוחה מרוצה' },
+    { quote:'העוגייה עם מילוי חמאת בוטנים הייתה אחת הטעימות שאכלתי — וזה שלא ממש אוהבת חמאת בוטנים בדרך כלל! הגיעה אליי בול בזמן הכי נכון.', name:'לקוחה מרוצה' },
+    { quote:'המוסים משגעים! והכל ארוז מהמם — הייתה פה התלהבות אמיתית.', name:'לקוחה מרוצה' },
+    { quote:'המארז המקסים הגיע אלינו והכל נראה מהמם — שאפו ענקי. ממליצה עליך בכל הזדמנות!', name:'לקוחה מרוצה' }
+  ];
+  var grid = document.getElementById('testiGrid');
+  var INITIAL_COUNT = 6;
+
+  function renderCard(t){
+    var card = document.createElement('div');
+    card.className = 'testi-card';
+    card.innerHTML = '<p class="testi-quote">' + t.quote + '</p><p class="testi-name">' + t.name + '</p>';
+    grid.appendChild(card);
+  }
+
+  testimonials.slice(0, INITIAL_COUNT).forEach(renderCard);
+
+  if (testimonials.length > INITIAL_COUNT){
+    var moreBtn = document.createElement('button');
+    moreBtn.type = 'button';
+    moreBtn.textContent = 'הצגת עוד ביקורות';
+    moreBtn.style.cssText = 'margin-top:26px;border:2px solid var(--teal);background:#fff;color:var(--teal-deep);border-radius:999px;padding:10px 24px;font-weight:700;font-size:calc(14px * var(--fs,1));cursor:pointer;';
+    moreBtn.addEventListener('click', function(){
+      testimonials.slice(INITIAL_COUNT).forEach(renderCard);
+      moreBtn.remove();
+    });
+    grid.parentNode.appendChild(moreBtn);
+  }
+})();
+
+(function(){
+  var SIZE_MAP = { '-1':0.9, '0':1, '1':1.15, '2':1.3 };
+  var btn = document.getElementById('a11yBtn');
+  var panel = document.getElementById('a11yPanel');
+  var sizeRow = document.getElementById('a11ySizeRow');
+  var resetBtn = document.getElementById('a11yReset');
+  var root = document.documentElement;
+
+  btn.addEventListener('click', function(){
+    var isOpen = panel.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  sizeRow.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var key = b.getAttribute('data-size');
+      root.style.setProperty('--fs', SIZE_MAP[key]);
+      sizeRow.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+    });
+  });
+
+  panel.querySelectorAll('.a11y-toggle').forEach(function(b){
+    b.addEventListener('click', function(){
+      var cls = 'a11y-' + b.getAttribute('data-toggle');
+      root.classList.toggle(cls);
+      b.classList.toggle('active');
+    });
+  });
+
+  resetBtn.addEventListener('click', function(){
+    root.style.setProperty('--fs', 1);
+    ['a11y-contrast','a11y-links','a11y-readable','a11y-noanim'].forEach(function(c){ root.classList.remove(c); });
+    sizeRow.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
+    sizeRow.querySelector('[data-size="0"]').classList.add('active');
+    panel.querySelectorAll('.a11y-toggle').forEach(function(x){ x.classList.remove('active'); });
+  });
+
+  document.addEventListener('click', function(e){
+    if (!panel.contains(e.target) && e.target !== btn && !btn.contains(e.target)){
+      panel.classList.remove('open');
+      btn.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+
+(function(){
+  var overlay = document.getElementById('statementOverlay');
+  var titleEl = document.getElementById('statementTitle');
+  var bodyEl = document.getElementById('statementBody');
+  var closeBtn = document.getElementById('statementClose');
+
+  var A11Y_TEXT = [
+    'עדכון אחרון: ספטמבר 2026. מתוק בשכונה מאמינה שהמידע והשירות שלנו צריכים להיות נגישים לכל אחת ואחד, ופועלת להנגשת האתר בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות, התשנ״ח-1998, לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג-2013, ולתקן הישראלי ת״י 5568 (המבוסס על הנחיות WCAG 2.0 ברמה AA).',
+
+    'מה עשינו בפועל: לכל התמונות באתר יש טקסט חלופי (ALT) המתאר את תוכנן; נוסף קישור ״דלגו לתוכן הראשי״ בתחילת העמוד עבור משתמשי מקלדת וקוראי מסך; לכפתורים ואייקונים ללא טקסט (כמו כפתורי הרשתות החברתיות, העגלה והתפריט הנייד) נוספו תיוגי ARIA מתאימים; העמוד בנוי בהתאם לניגודיות צבעים סבירה בין טקסט לרקע; והתוכן מגיב ומסתדר מחדש בכל גודל מסך, כולל טלפון נייד.',
+
+    'בנוסף, באתר מותקן תפריט נגישות (האייקון בפינת המסך) המאפשר לכל מבקר, לפי בחירתו: להגדיל ולהקטין את גודל הטקסט בעמוד, להפעיל מצב ניגודיות גבוהה, להדגיש את כל הקישורים, לעבור לגופן קריא עם ריווח שורות מוגדל, ולעצור אנימציות ומעברים בעמוד — כל זאת מבלי לשמור או להעביר מידע על הבחירה לשום גורם חיצוני.',
+
+    'חרף מאמצינו להנגיש את האתר לכל המשתמשים, ייתכן ויתגלו חלקים שטרם הונגשו במלואם או שאינם עומדים במלואם בדרישות התקן — בין היתר בשל תוכן חיצוני (כגון סרטון יוטיוב) שאינו בשליטתנו המלאה. אנחנו ממשיכים לבדוק ולשפר את נגישות האתר באופן שוטף.',
+
+    'רכזת הנגישות מטעם העסק: ארבל, בעלת מתוק בשכונה. נתקלתם בבעיית נגישות באתר, או זקוקים למידע בפורמט חלופי ונגיש יותר? נשמח שתפנו אלינו בוואטסאפ למספר 058-5049194 או בהודעה באינסטגרם, ונטפל בפנייה בהקדם האפשרי — ככלל, בתוך ימי עסקים ספורים.'
+  ];
+
+  var PRIVACY_TEXT = [
+    'עדכון אחרון: ספטמבר 2026. מתוק בשכונה (״העסק״, ״אנחנו״) מכבדת את פרטיותכם, ומדיניות זו מסבירה אילו נתונים נאספים באתר, כיצד הם משמשים, ומהן זכויותיכם — בהתאם לחוק הגנת הפרטיות, התשמ״א-1981, כפי שתוקן בתיקון 13 שנכנס לתוקף באוגוסט 2025.',
+
+    'האתר הוא אתר תדמיתי, ואינו כולל מערכת הרשמה, התחברות עם משתמש, או סליקת תשלומים דרך האתר עצמו. אין לנו שרת או מסד נתונים חיצוני שאליו נשלח מידע מהאתר — כל מה שקורה בעגלת ההזמנה (בחירת מוצרים, כמויות, אפשרות איסוף/משלוח, ושם למילוי בהזמנה אם הוזן) מתבצע ונשמר זמנית בדפדפן שלכם בלבד, ונמחק כשסוגרים או מרעננים את העמוד.',
+
+    'כשלוחצים על כפתור ״שליחת ההזמנה בוואטסאפ״, האתר רק מכין עבורכם הודעת טקסט מוכנה מראש (עם פירוט המוצרים, הכמויות, אופן הקבלה והשם שהזנתם, אם הזנתם) ופותח את אפליקציית הוואטסאפ שלכם. ההודעה נשלחת רק אם אתם בוחרים בפועל ללחוץ על ״שליחה״ בתוך הוואטסאפ — האתר עצמו אינו שולח, מעביר או שומר את תוכן ההודעה בשום שלב.',
+
+    'פנייה אלינו — בין אם דרך כפתור הוואטסאפ, ליצירת קשר טלפוני, או דרך העמודים שלנו באינסטגרם ובפייסבוק — מתבצעת ישירות מול אותה פלטפורמה (וואטסאפ / מטא), ולא דרך שרתי האתר. המידע שתמסרו במסגרת שיחה כזו (למשל שם, מספר טלפון, כתובת למשלוח) מתקבל אצלנו ישירות בשיחה, ולא נאסף על ידי האתר. עליכם חלה גם מדיניות הפרטיות של אותה פלטפורמה, שאיננה בשליטתנו.',
+
+    'המידע שתמסרו לנו בשיחה (וואטסאפ, טלפון או הודעה ברשתות החברתיות) — כגון שם, מספר טלפון וכתובת למשלוח — משמש אותנו אך ורק לצורך הטיפול בהזמנה שלכם, תיאום מועד איסוף או משלוח, ויצירת קשר בנוגע להזמנה. אנחנו לא מעבירים את הפרטים האלה לגורם שלישי, ולא משתמשים בהם לשיווק ללא הסכמתכם המפורשת.',
+
+    'האתר אינו משתמש בעוגיות (Cookies), פיקסלים או כלי מעקב מכל סוג — לא לצורכי אנליטיקה, לא לפרסום ולא לאיסוף מידע גלישה. תפריט הנגישות שבתחתית העמוד (שינוי גודל טקסט, ניגודיות ועוד) פועל כולו בתוך הדפדפן שלכם ואינו נשמר או מועבר לשום מקום.',
+
+    'בהתאם לחוק הגנת הפרטיות, עומדות לכם מספר זכויות ביחס למידע אישי שנמסר לנו במסגרת שיחה או הזמנה: הזכות לדעת אילו פרטים נשמרים אצלנו לגביכם; הזכות לבקש לעיין במידע זה; הזכות לבקש לתקן מידע שגוי או לא מעודכן; הזכות לבקש את מחיקת המידע כשאין עוד צורך עסקי או חוקי בשמירתו; והזכות להתנגד לכל שימוש בפרטיכם לצורכי שיווק ישיר. כדי לממש כל אחת מהזכויות האלה, פשוט צרו קשר בוואטסאפ למספר 058-5049194 ונטפל בפנייה בהקדם.',
+
+    'מתוק בשכונה היא עסק שכונתי קטן שאינו מנהל מאגר מידע לצורכי מסחר במידע, דיוור המוני או ניטור שיטתי, ולכן אינו כפוף לחובות הרישום או למינוי ממונה הגנת פרטיות החלות על ארגונים גדולים יותר. עם זאת, אנחנו מתייחסים ברצינות לכל מידע שנמסר לנו ונוקטים משנה זהירות בשמירה עליו.',
+
+    'מדיניות זו עשויה להתעדכן מעת לעת בהתאם לשינויים באתר או בדרישות החוק; הגרסה העדכנית תמיד תופיע כאן. לשאלות נוספות בנוגע לפרטיות, ניתן לפנות אלינו בוואטסאפ למספר 058-5049194.'
+  ];
+
+  function openModal(title, paragraphs){
+    titleEl.textContent = title;
+    bodyEl.innerHTML = paragraphs.map(function(p){ return '<p>' + p + '</p>'; }).join('');
+    overlay.classList.add('open');
+  }
+
+  document.getElementById('openA11yStatement').addEventListener('click', function(e){
+    e.preventDefault();
+    openModal('הצהרת נגישות', A11Y_TEXT);
+  });
+  document.getElementById('openPrivacyStatement').addEventListener('click', function(e){
+    e.preventDefault();
+    openModal('הצהרת פרטיות', PRIVACY_TEXT);
+  });
+  closeBtn.addEventListener('click', function(){ overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) overlay.classList.remove('open'); });
+})();
+</script>
+
+</body>
+</html>
