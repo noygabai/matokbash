@@ -444,7 +444,7 @@
         <input type="radio" name="fulfillment" value="delivery"> משלוח בתשלום (לפי מרחק)
       </label>
       <p style="font-size:calc(12px * var(--fs,1));color:var(--ink-soft);margin-top:8px;">מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
-      <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה (לנוחיות מי שמקבל)</label>
+      <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה</label>
       <input type="text" id="cartRecipientName" placeholder="לדוגמה: שם המקבל/ת או מוען המתנה" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
     </div>
     <p style="font-size:calc(12.5px * var(--fs,1));color:var(--ink-soft);margin-top:6px;">* המחיר הסופי, כולל התאמות טעם וגודל, יאושר מולכם בשיחת הוואטסאפ.</p>
@@ -732,6 +732,11 @@
     { id:'cakes', label:'עוגות מעוצבות', items:[
       {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg'},
       {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 120 ₪', price:120},{label:'A4 – 150 ₪', price:150}]},
+      {name:'עוגה מעוצבת בהתאמה אישית', price:'החל מ-300 ₪', desc:'עוגה בעיצוב אישי לפי בקשה — לא רק דמויות, אלא כל נושא, אירוע או קונספט שתרצו (סרטים, מסיבות, צורות מיוחדות ועוד). המחיר תלוי בקוטר ובמורכבות העיצוב, ויכול להיות גבוה יותר מהמחירים הבסיסיים בהתאם לרמת הפירוט המבוקשת — לתמחור מדויק כדאי לשלוח השראה או תמונה בוואטסאפ.', image:[
+        {label:'פיקאצ׳ו', src:'images/gallery-09.jpg'},
+        {label:'וואן פיס', src:'images/gallery-14.jpg'},
+        {label:'Wicked', src:'images/gallery-11.jpg'}
+      ], priceOptions:[{label:'קוטר 18 – 300 ₪', price:300},{label:'קוטר 20 – 320 ₪', price:320},{label:'קוטר 22 – 350 ₪', price:350}]},
       {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 150 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
     ]},
     { id:'cookies', label:'עוגיות ומאפים', items:[
