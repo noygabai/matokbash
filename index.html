@@ -444,12 +444,13 @@
         <input type="radio" name="fulfillment" value="delivery"> משלוח בתשלום (לפי מרחק)
       </label>
       <p style="font-size:calc(12px * var(--fs,1));color:var(--ink-soft);margin-top:8px;">מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
-      <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה</label>
+      <label style="display:block;margin-top:14px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">שם למילוי בהזמנה<span style="color:var(--pink);"> *</span></label>
       <input type="text" id="cartRecipientName" placeholder="לדוגמה: שם המקבל/ת או מוען המתנה" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
       <div id="cityFieldWrap" style="display:none;">
-        <label style="display:block;margin-top:12px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">עיר</label>
+        <label style="display:block;margin-top:12px;font-weight:700;font-size:calc(13.5px * var(--fs,1));">עיר<span id="cityRequiredMark" style="color:var(--pink);"></span></label>
         <input type="text" id="cartCity" placeholder="לדוגמה: רמת גן" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:calc(14px * var(--fs,1));font-family:'Heebo',sans-serif;">
       </div>
+      <p id="cartFormError" style="display:none;color:var(--pink);font-size:calc(12.5px * var(--fs,1));font-weight:700;margin-top:8px;">נא למלא שם ועיר לפני שליחת ההזמנה במשלוח.</p>
     </div>
     <p style="font-size:calc(12.5px * var(--fs,1));color:var(--ink-soft);margin-top:6px;">* המחיר הסופי, כולל התאמות טעם וגודל, יאושר מולכם בשיחת הוואטסאפ.</p>
     <div style="display:flex;gap:10px;margin-top:16px;">
@@ -563,7 +564,7 @@
       var row = document.createElement('div');
       row.className = 'cart-row';
       row.innerHTML =
-        '<div class="cart-row-name">' + it.name + '<br><span class="cart-row-price">' + it.price + '</span></div>' +
+        '<div class="cart-row-name">' + it.name + '<br><span class="cart-row-price">' + it.price + '</span>' + (it.note ? '<br><span class="cart-row-price">כיתוב: ' + it.note + '</span>' : '') + '</div>' +
         '<div class="cart-stepper">' +
           '<button type="button" data-act="minus" data-id="' + id + '">−</button>' +
           '<span>' + it.qty + '</span>' +
@@ -594,7 +595,9 @@
     var ids = Object.keys(cart);
     var lines = ids.map(function(id){
       var it = cart[id];
-      return '- ' + it.name + ' x' + it.qty + ' (' + it.price + ')';
+      var line = '- ' + it.name + ' x' + it.qty + ' (' + it.price + ')';
+      if (it.note) line += ' | כיתוב על העוגה: ' + it.note;
+      return line;
     });
     var total = 0;
     ids.forEach(function(id){
@@ -619,9 +622,9 @@
   }
 
   window.MatokCart = {
-    add: function(id, name, price, unitPrice){
+    add: function(id, name, price, unitPrice, note){
       if (cart[id]) cart[id].qty += 1;
-      else cart[id] = { name: name, price: price, qty: 1, unitPrice: (typeof unitPrice === 'number') ? unitPrice : null };
+      else cart[id] = { name: name, price: price, qty: 1, unitPrice: (typeof unitPrice === 'number') ? unitPrice : null, note: note || '' };
       updateBadges();
       renderCart();
       buildCheckoutLink();
@@ -650,12 +653,38 @@
       var isDelivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
       var wrap = document.getElementById('cityFieldWrap');
       wrap.style.display = isDelivery ? 'block' : 'none';
-      if (!isDelivery) document.getElementById('cartCity').value = '';
+      document.getElementById('cityRequiredMark').textContent = isDelivery ? ' *' : '';
+      if (!isDelivery){
+        document.getElementById('cartCity').value = '';
+        document.getElementById('cartFormError').style.display = 'none';
+        document.getElementById('cartRecipientName').style.borderColor = 'var(--line)';
+        document.getElementById('cartCity').style.borderColor = 'var(--line)';
+      }
       buildCheckoutLink();
     });
   });
   document.getElementById('cartRecipientName').addEventListener('input', buildCheckoutLink);
   document.getElementById('cartCity').addEventListener('input', buildCheckoutLink);
+
+  document.getElementById('cartCheckout').addEventListener('click', function(e){
+    var isDelivery = document.querySelector('input[name="fulfillment"]:checked').value === 'delivery';
+    var nameEl = document.getElementById('cartRecipientName');
+    var cityEl = document.getElementById('cartCity');
+    var errEl = document.getElementById('cartFormError');
+    var missing = false;
+    if (!nameEl.value.trim()){ nameEl.style.borderColor = 'var(--pink)'; missing = true; } else { nameEl.style.borderColor = 'var(--line)'; }
+    if (isDelivery){
+      if (!cityEl.value.trim()){ cityEl.style.borderColor = 'var(--pink)'; missing = true; } else { cityEl.style.borderColor = 'var(--line)'; }
+    }
+    if (missing){
+      e.preventDefault();
+      errEl.textContent = isDelivery ? 'נא למלא שם ועיר לפני שליחת ההזמנה במשלוח.' : 'נא למלא שם לפני שליחת ההזמנה.';
+      errEl.style.display = 'block';
+      (nameEl.value.trim() ? cityEl : nameEl).focus();
+    } else {
+      errEl.style.display = 'none';
+    }
+  });
 
   renderCart();
 })();
@@ -747,14 +776,14 @@
       {name:'מארז פיצוץ', price:'240 ₪', desc:'עוגה בחושה קטנה, 6 עוגיות שוקולד במילוי חמאת בוטנים, 5 קייקפופס, 4 ריבועי בראוניז, 3 מרנג', image:'images/product-17.jpg'}
     ]},
     { id:'cakes', label:'עוגות מעוצבות', items:[
-      {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg'},
-      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 120 ₪', price:120},{label:'A4 – 150 ₪', price:150}]},
+      {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg', allowCakeText:true},
+      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 120 ₪', price:120},{label:'A4 – 150 ₪', price:150}], allowCakeText:true},
       {name:'עוגה מעוצבת בהתאמה אישית', price:'החל מ-300 ₪', desc:'עוגה בעיצוב אישי לפי בקשה — לא רק דמויות, אלא כל נושא, אירוע או קונספט שתרצו (סרטים, מסיבות, צורות מיוחדות ועוד). המחיר תלוי בקוטר ובמורכבות העיצוב, ויכול להיות גבוה יותר מהמחירים הבסיסיים בהתאם לרמת הפירוט המבוקשת — לתמחור מדויק כדאי לשלוח השראה או תמונה בוואטסאפ.', image:[
         {label:'פיקאצ׳ו', src:'images/gallery-09.jpg'},
         {label:'וואן פיס', src:'images/gallery-14.jpg'},
         {label:'Wicked', src:'images/gallery-11.jpg'}
-      ], priceOptions:[{label:'קוטר 18 – 300 ₪', price:300},{label:'קוטר 20 – 320 ₪', price:320},{label:'קוטר 22 – 350 ₪', price:350}]},
-      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 150 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
+      ], priceOptions:[{label:'קוטר 18 – 300 ₪', price:300},{label:'קוטר 20 – 320 ₪', price:320},{label:'קוטר 22 – 350 ₪', price:350}], allowCakeText:true},
+      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 150 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', allowCakeText:true, nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
     ]},
     { id:'cookies', label:'עוגיות ומאפים', items:[
       {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 70 ₪', price:70},{label:'8 יח׳ – 90 ₪', price:90},{label:'12 יח׳ – 120 ₪', price:120}], image:[
@@ -839,6 +868,7 @@
         '<p>' + item.desc + '</p>' +
         (item.carbs ? '<div class="carbs">' + item.carbs + '</div>' : '') +
         (item.nutrition ? '<div><a href="#" class="nutri-link" data-id="' + itemId + '">ערכים תזונתיים מלאים</a></div>' : '') +
+        (item.allowCakeText ? '<input type="text" class="cake-text-input" placeholder="מה לכתוב על העוגה? (אופציונלי)" style="width:100%;margin-top:10px;border:2px solid var(--line);border-radius:10px;padding:7px 10px;font-size:calc(13.5px * var(--fs,1));font-family:\'Heebo\',sans-serif;">' : '') +
         '<div class="add-cart-row">' +
           '<button type="button" class="add-cart-btn" data-id="' + itemId + '">הוסיפו להזמנה</button>' +
           '<span class="cart-qty-badge" id="qty-' + itemId + '"></span>' +
@@ -846,13 +876,18 @@
       var addBtn = card.querySelector('.add-cart-btn');
       addBtn.addEventListener('click', function(e){
         e.stopPropagation();
+        var cakeText = '';
+        if (item.allowCakeText){
+          var cakeTextEl = card.querySelector('.cake-text-input');
+          if (cakeTextEl) cakeText = cakeTextEl.value.trim();
+        }
         if (item.priceOptions){
           var sel = card.querySelector('.price-select');
           var opt = sel.options[sel.selectedIndex];
-          var cartId = itemId + '-' + opt.value + '-' + sel.selectedIndex;
-          window.MatokCart.add(cartId, item.name, opt.text, Number(opt.value));
+          var cartId = itemId + '-' + opt.value + '-' + sel.selectedIndex + (cakeText ? '-' + cakeText : '');
+          window.MatokCart.add(cartId, item.name, opt.text, Number(opt.value), cakeText);
         } else {
-          window.MatokCart.add(itemId, item.name, item.price);
+          window.MatokCart.add(itemId + (cakeText ? '-' + cakeText : ''), item.name, item.price, null, cakeText);
         }
       });
       card.querySelector('.item-title-clickable').addEventListener('click', function(){
