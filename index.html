@@ -131,6 +131,7 @@
   .flavor-label{display:block;margin-top:10px;font-size:calc(12.5px * var(--fs,1));color:var(--ink-soft);font-weight:700;}
   .flavor-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
   .flavor-pill{display:flex;align-items:center;gap:5px;border:2px solid var(--line);border-radius:999px;padding:5px 12px;font-size:calc(12.5px * var(--fs,1));cursor:pointer;color:var(--ink);}
+  .flavor-pill:has(input:disabled){opacity:.45;cursor:not-allowed;}
   .flavor-pill input{accent-color:var(--pink);cursor:pointer;}
   .flavor-pill:has(input:checked){border-color:var(--pink);background:var(--blush,#FFE9F1);color:var(--pink-deep);font-weight:700;}
   .item p{font-size:calc(14px * var(--fs,1));color:var(--ink-soft);margin:0;}
@@ -786,9 +787,9 @@
     { id:'sets', label:'מארזים', items:[
       {name:'מארז סוויט', price:'240 ₪', desc:'4 ריבועי בראוניז, 8 עוגיות אמסטרדם, 3 מרנג על מקל, 5 קייקפופס', image:'images/product-16.jpg'},
       {name:'מארז מאנצ׳', price:'215 ₪', desc:'6 עוגיות שוקולד ציפס ומלח ים, 6 עוגיות אמסטרדם, 3 קייקפופס, 3 מרנג', image:'images/product-18.jpg'},
-      {name:'מארז קצר ולעניין', price:'240 ₪', desc:'8 עוגיות שוקולד ציפס, 10 מקרונים (שוקולד/וניל/קפה), עוגה בחושה קטנה', image:'images/product-19.jpg'},
+      {name:'מארז קצר ולעניין', price:'240 ₪', desc:'8 עוגיות שוקולד ציפס, 10 מקרונים (שוקולד/וניל/קפה), עוגה בחושה קטנה', image:'images/product-19.jpg', flavors:['שוקולד','וניל','קפה'], flavorCap:3, flavorLabel:'בחרו טעמי מקרונים (אפשר כמה)'},
       {name:'מארז שוקולדי', price:'265 ₪', desc:'6 עוגיות אמסטרדם, 6 עוגיות שוקולד במילוי בוטנים, 4 ריבועי בראוניז, 4 קייקפופס', image:'images/gallery-02.jpg'},
-      {name:'מארז קיטו', price:'190 ₪', badge:'חדש', desc:'3 קרם ברולה/מוסים, 10 עוגיות דיונון/שושני מרנג, עוגה בחושה קטנה', image:'images/product-15.jpg'},
+      {name:'מארז קיטו', price:'190 ₪', badge:'חדש', desc:'3 קרם ברולה/מוסים, 10 עוגיות חמאה/שושני מרנג, עוגה בחושה קטנה', image:'images/product-15.jpg', choiceGroups:[{label:'בחרו: קרם ברולה או מוסים', options:['קרם ברולה','מוסים']},{label:'בחרו: עוגיות חמאה או שושני מרנג', options:['עוגיות חמאה','שושני מרנג']}]},
       {name:'מארז פיצוץ', price:'275 ₪', desc:'עוגה בחושה קטנה, 6 עוגיות שוקולד במילוי חמאת בוטנים, 5 קייקפופס, 4 ריבועי בראוניז, 3 מרנג', image:'images/product-17.jpg'}
     ]},
     { id:'cakes', label:'עוגות מעוצבות', items:[
@@ -802,7 +803,7 @@
       {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 185 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', allowCakeText:true, nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
     ]},
     { id:'cookies', label:'עוגיות ומאפים', items:[
-      {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 80 ₪', price:80},{label:'8 יח׳ – 105 ₪', price:105},{label:'12 יח׳ – 135 ₪', price:135}], flavors:['שוקולד ציפס','אמסטרדם','שוקולד במילוי בוטנים'], image:[
+      {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 80 ₪', price:80, flavorMax:1},{label:'8 יח׳ – 105 ₪', price:105, flavorMax:1},{label:'12 יח׳ – 135 ₪', price:135, flavorMax:2}], flavors:['שוקולד ציפס','אמסטרדם','שוקולד במילוי בוטנים'], image:[
         {label:'שוקולד ציפס', src:'images/product-07.jpg'},
         {label:'שוקולד במילוי בוטנים', src:'images/product-08.jpg'},
         {label:'אמסטרדם', src:'images/product-21.jpg'}
@@ -818,7 +819,7 @@
         {label:'ציפוי שוקולד לבן', unit:'יחידה', perUnit:{cal:190, protein:3.63, carbs:6, fat:16.92}, per100g:{cal:431, protein:8.25, carbs:13, fat:38.46}}
       ]},
       {name:'עוגיות חמאה', price:'40 ₪ (5 יח׳) / 75 ₪ (10 יח׳)', badge:'קיטו', desc:'עוגיות חמאה קלאסיות ופריכות', carbs:'2 גרם פחמימה ליחידה', image:'images/product-04.jpg', priceOptions:[{label:'40 ₪ (5 יח׳)', price:40},{label:'75 ₪ (10 יח׳)', price:75}], nutrition:{unit:'יחידה', perUnit:{cal:68, protein:1.92, carbs:2, fat:5.88}, per100g:{cal:346, protein:9.77, carbs:9, fat:29.93}}},
-      {name:'מקרונים', price:'95 ₪', desc:'טעמי שוקולד, וניל או קפה', carbs:'2 גרם פחמימה ליחידה', image:'images/product-20.jpg', nutrition:{unit:'יחידה', perUnit:{cal:51, protein:1.74, carbs:2, fat:3.86}, per100g:{cal:227, protein:7.69, carbs:10, fat:17.06}}}
+      {name:'מקרונים', price:'95 ₪', desc:'טעמי שוקולד, וניל או קפה', carbs:'2 גרם פחמימה ליחידה', image:'images/product-20.jpg', flavors:['שוקולד','וניל','קפה'], nutrition:{unit:'יחידה', perUnit:{cal:51, protein:1.74, carbs:2, fat:3.86}, per100g:{cal:227, protein:7.69, carbs:10, fat:17.06}}}
     ]},
     { id:'creams', label:'קרמים ומוסים', items:[
       {name:'קרם ברולה', price:'25 ₪ / 125 ₪ (6 יח׳)', badge:'קיטו', desc:'קרם וניל קלאסי עם שכבת קרמל פריכה', carbs:'4 גרם פחמימה לתבנית', image:'images/gallery-16.jpg', priceOptions:[{label:'25 ₪ (יחידה)', price:25},{label:'125 ₪ (6 יח׳)', price:125}], nutrition:{unit:'תבנית', perUnit:{cal:220, protein:5.3, carbs:4, fat:19.51}, per100g:{cal:183, protein:4.42, carbs:3, fat:16.26}}},
@@ -870,7 +871,7 @@
         priceBlock =
           '<div class="price-options-row">' +
             '<select class="price-select" data-id="' + itemId + '">' +
-              item.priceOptions.map(function(o){ return '<option value="' + o.price + '" data-qty="' + (o.qty || '') + '">' + o.label + '</option>'; }).join('') +
+              item.priceOptions.map(function(o){ return '<option value="' + o.price + '" data-qty="' + (o.qty || '') + '" data-flavormax="' + (o.flavorMax || '') + '">' + o.label + '</option>'; }).join('') +
             '</select>' +
           '</div>';
       } else {
@@ -884,7 +885,12 @@
         '<p>' + item.desc + '</p>' +
         (item.carbs ? '<div class="carbs">' + item.carbs + '</div>' : '') +
         (item.nutrition ? '<div><a href="#" class="nutri-link" data-id="' + itemId + '">ערכים תזונתיים מלאים</a></div>' : '') +
-        (item.flavors ? '<label class="flavor-label">בחרו טעם/ים (אפשר יותר מאחד, למשל חצי-חצי)</label><div class="flavor-pills">' + item.flavors.map(function(f, fi){ return '<label class="flavor-pill"><input type="checkbox" value="' + f + '" data-fi="' + fi + '"> ' + f + '</label>'; }).join('') + '</div>' : '') +
+        (item.flavors ? '<label class="flavor-label">' + (item.flavorLabel || 'בחרו טעם/ים (אפשר יותר מאחד, למשל חצי-חצי)') + '</label><div class="flavor-pills">' + item.flavors.map(function(f, fi){ return '<label class="flavor-pill"><input type="checkbox" value="' + f + '" data-fi="' + fi + '"> ' + f + '</label>'; }).join('') + '</div>' : '') +
+        (item.choiceGroups ? item.choiceGroups.map(function(g, gi){
+          return '<label class="flavor-label">' + g.label + '</label><div class="flavor-pills choice-group" data-gi="' + gi + '">' +
+            g.options.map(function(o, oi){ return '<label class="flavor-pill"><input type="radio" name="choice-' + itemId + '-' + gi + '" value="' + o + '"> ' + o + '</label>'; }).join('') +
+          '</div>';
+        }).join('') : '') +
         (item.allowCakeText ? '<input type="text" class="cake-text-input" placeholder="' + (item.cakeTextLabel || 'מה לכתוב על העוגה? (אופציונלי)') + '" style="width:100%;margin-top:10px;border:2px solid var(--line);border-radius:10px;padding:7px 10px;font-size:calc(13.5px * var(--fs,1));font-family:\'Heebo\',sans-serif;">' : '') +
         '<div class="add-cart-row">' +
           '<button type="button" class="add-cart-btn" data-id="' + itemId + '">הוסיפו להזמנה</button>' +
@@ -905,11 +911,21 @@
           var cakeTextEl = card.querySelector('.cake-text-input');
           if (cakeTextEl) cakeText = cakeTextEl.value.trim();
         }
+        var choices = '';
+        if (item.choiceGroups){
+          var chosenGroups = [];
+          card.querySelectorAll('.choice-group').forEach(function(groupEl){
+            var checkedRadio = groupEl.querySelector('input:checked');
+            if (checkedRadio) chosenGroups.push(checkedRadio.value);
+          });
+          choices = chosenGroups.join(' + ');
+        }
         var noteParts = [];
         if (flavor) noteParts.push('טעם: ' + flavor);
+        if (choices) noteParts.push('בחירה: ' + choices);
         if (cakeText) noteParts.push(cakeText);
         var note = noteParts.join(' | ');
-        var noteKey = (flavor ? '-' + flavor : '') + (cakeText ? '-' + cakeText : '');
+        var noteKey = (flavor ? '-' + flavor : '') + (choices ? '-' + choices : '') + (cakeText ? '-' + cakeText : '');
         if (item.priceOptions){
           var sel = card.querySelector('.price-select');
           var opt = sel.options[sel.selectedIndex];
@@ -922,34 +938,44 @@
       card.querySelector('.item-title-clickable').addEventListener('click', function(){
         window.MatokPhoto.open(item.name, item.image || null);
       });
-      if (item.flavors && item.priceOptions){
+      if (item.flavors){
         var flavorInputs = card.querySelectorAll('.flavor-pill input');
         var priceSelEl = card.querySelector('.price-select');
         var flavorLabelEl = card.querySelector('.flavor-label');
-        function applySingleFlavorMode(){
-          var selOpt = priceSelEl.options[priceSelEl.selectedIndex];
-          var isSingle = selOpt.getAttribute('data-qty') === '1';
-          if (flavorLabelEl) flavorLabelEl.textContent = isSingle ? 'בחרו טעם' : 'בחרו טעם/ים (אפשר יותר מאחד, למשל חצי-חצי)';
-          if (isSingle){
-            var firstChecked = false;
-            flavorInputs.forEach(function(cb){
-              if (cb.checked){
-                if (firstChecked){ cb.checked = false; } else { firstChecked = true; }
-              }
-            });
-          }
-        }
-        priceSelEl.addEventListener('change', applySingleFlavorMode);
-        flavorInputs.forEach(function(cb){
-          cb.addEventListener('change', function(){
+        var MAX_MULTI = item.flavorCap || 2;
+
+        function getMaxAllowed(){
+          if (item.priceOptions && priceSelEl){
             var selOpt = priceSelEl.options[priceSelEl.selectedIndex];
-            var isSingle = selOpt.getAttribute('data-qty') === '1';
-            if (isSingle && cb.checked){
-              flavorInputs.forEach(function(other){ if (other !== cb) other.checked = false; });
-            }
+            var explicitMax = selOpt.getAttribute('data-flavormax');
+            if (explicitMax){ return parseInt(explicitMax, 10); }
+            if (selOpt.getAttribute('data-qty') === '1') return 1;
+          }
+          return MAX_MULTI;
+        }
+
+        function enforceMax(){
+          var max = getMaxAllowed();
+          if (flavorLabelEl){
+            flavorLabelEl.textContent = item.flavorLabel ? item.flavorLabel : ((max === 1) ? 'בחרו טעם' : 'בחרו עד ' + max + ' טעמים (למשל חצי-חצי)');
+          }
+          var checkedBoxes = [];
+          flavorInputs.forEach(function(cb){ if (cb.checked) checkedBoxes.push(cb); });
+          while (checkedBoxes.length > max){
+            var toUncheck = checkedBoxes.shift();
+            toUncheck.checked = false;
+          }
+          var atMax = checkedBoxes.length >= max;
+          flavorInputs.forEach(function(cb){
+            if (!cb.checked) cb.disabled = atMax;
           });
+        }
+
+        if (priceSelEl) priceSelEl.addEventListener('change', enforceMax);
+        flavorInputs.forEach(function(cb){
+          cb.addEventListener('change', enforceMax);
         });
-        applySingleFlavorMode();
+        enforceMax();
       }
       if (thumbSrc){
         card.querySelector('.item-thumb').addEventListener('click', function(){
