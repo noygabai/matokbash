@@ -139,6 +139,8 @@
   .add-cart-row{display:flex;align-items:center;gap:8px;margin-top:12px;}
   .add-cart-btn{background:var(--teal-deep);color:#fff;border:none;border-radius:999px;padding:8px 16px;font-weight:700;font-size:calc(13px * var(--fs,1));cursor:pointer;}
   .add-cart-btn:hover{background:var(--pink);}
+  .minus-cart-btn{width:30px;height:30px;flex:none;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer;}
+  .minus-cart-btn:hover{border-color:var(--pink);color:var(--pink);}
   .cart-qty-badge{font-size:calc(13px * var(--fs,1));font-weight:800;color:var(--pink);display:none;}
 
   .cart-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
@@ -321,13 +323,13 @@
   <div class="wrap about-grid">
     <div>
       <h2>הסיפור מאחורי מתוק בשכונה</h2>
-      <p>מאז ומתמיד הייתה לי תשוקה לאפייה. אני אופה מקצועית כבר 8 שנים, ואלפי לקוחות נהנו מהמוצרים שלי.</p>
-      <p>אני מאובחנת עם סוכרת נעורים כבר 10 שנים — ובשנים האלו למדתי לשלב את האהבה שלי למתוקים יחד עם הדרישות התזונתיות של הסוכרת. פיתחתי מתכונים המשלבים חומרי גלם טריים ואיכותיים, קמחים דלי פחמימה וממתיקים ללא ערך גליקמי.</p>
+      <p>מאז ומתמיד הייתה לי תשוקה לאפייה. אני אופה מקצועית כבר 14 שנים, ואלפי לקוחות נהנו מהמוצרים שלי.</p>
+      <p>אני מאובחנת עם סוכרת נעורים כבר 10 שנים — ובשנים האלו למדתי לשלב את האהבה שלי למתוקים יחד עם הדרישות התזונתיות של הסוכרת. פיתחתי מתכונים המשלבים חומרי גלם טריים ואיכותיים, קמחים דלי פחמימה וממתיקים בעלי ערך גליקמי נמוך או נטול.</p>
       <p>הצלחתי למצוא מענה לאוכלוסיות עם הגבלה תזונתית שרק רוצות ליהנות ממשהו מתוק.</p>
       <div class="callout">כל מוצר שתראו באתר הוא דל פחמימה וללא גלוטן!</div>
     </div>
     <div class="stats">
-      <div class="stat"><b>8</b><span>שנות ניסיון כאופה מקצועית</span></div>
+      <div class="stat"><b>14</b><span>שנות ניסיון כאופה מקצועית</span></div>
       <div class="stat"><b>אלפי</b><span>לקוחות מרוצים</span></div>
     </div>
   </div>
@@ -335,7 +337,7 @@
     <div class="values">
       <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>דל פחמימה</div>
       <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ללא גלוטן</div>
-      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ללא ערך גליקמי</div>
+      <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ערך גליקמי נמוך/נטול</div>
       <div class="value"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>חומרי גלם טריים</div>
     </div>
   </div>
@@ -629,10 +631,11 @@
     var recipientName = recipientEl ? recipientEl.value.trim() : '';
     var cityEl = document.getElementById('cartCity');
     var city = cityEl ? cityEl.value.trim() : '';
-    var msg = 'היי! אשמח להזמין:\n' + lines.join('\n');
+    var msg = 'היי! אשמח להזמין:';
+    if (recipientName) msg += '\nשם למילוי בהזמנה: ' + recipientName;
+    msg += '\n' + lines.join('\n');
     if (total > 0) msg += '\nסה"כ משוער: ' + total + ' ₪';
     msg += '\nאופן קבלה: ' + fulfillmentText;
-    if (recipientName) msg += '\nשם למילוי בהזמנה: ' + recipientName;
     if (city) msg += '\nעיר: ' + city;
     msg += '\nתודה!';
     document.getElementById('cartCheckout').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg));
@@ -642,6 +645,14 @@
     add: function(id, name, price, unitPrice, note){
       if (cart[id]) cart[id].qty += 1;
       else cart[id] = { name: name, price: price, qty: 1, unitPrice: (typeof unitPrice === 'number') ? unitPrice : null, note: note || '' };
+      updateBadges();
+      renderCart();
+      buildCheckoutLink();
+    },
+    decrement: function(id){
+      if (!cart[id]) return;
+      cart[id].qty -= 1;
+      if (cart[id].qty <= 0) delete cart[id];
       updateBadges();
       renderCart();
       buildCheckoutLink();
@@ -787,23 +798,23 @@
     { id:'sets', label:'מארזים', items:[
       {name:'מארז סוויט', price:'240 ₪', desc:'4 ריבועי בראוניז, 8 עוגיות אמסטרדם, 3 מרנג על מקל, 5 קייקפופס', image:'images/product-16.jpg'},
       {name:'מארז מאנצ׳', price:'215 ₪', desc:'6 עוגיות שוקולד ציפס ומלח ים, 6 עוגיות אמסטרדם, 3 קייקפופס, 3 מרנג', image:'images/product-18.jpg'},
-      {name:'מארז קצר ולעניין', price:'240 ₪', desc:'8 עוגיות שוקולד ציפס, 10 מקרונים (שוקולד/וניל/קפה), עוגה בחושה קטנה', image:'images/product-19.jpg', flavors:['שוקולד','וניל','קפה'], flavorCap:3, flavorLabel:'בחרו טעמי מקרונים (אפשר כמה)'},
+      {name:'מארז קצר ולעניין', price:'240 ₪', desc:'8 עוגיות שוקולד ציפס, 10 מקרונים (שוקולד/וניל/קפה), עוגה בחושה קטנה', image:'images/product-19.jpg', flavors:['שוקולד','וניל','קפה'], flavorCap:2, flavorLabel:'בחרו עד 2 טעמי מקרונים', flavorNoteLabel:'טעם המקרונים'},
       {name:'מארז שוקולדי', price:'265 ₪', desc:'6 עוגיות אמסטרדם, 6 עוגיות שוקולד במילוי בוטנים, 4 ריבועי בראוניז, 4 קייקפופס', image:'images/gallery-02.jpg'},
-      {name:'מארז קיטו', price:'190 ₪', badge:'חדש', desc:'3 קרם ברולה/מוסים, 10 עוגיות חמאה/שושני מרנג, עוגה בחושה קטנה', image:'images/product-15.jpg', choiceGroups:[{label:'בחרו: קרם ברולה או מוסים', options:['קרם ברולה','מוסים']},{label:'בחרו: עוגיות חמאה או שושני מרנג', options:['עוגיות חמאה','שושני מרנג']}]},
+      {name:'מארז קיטו', price:'210 ₪', badge:'חדש', desc:'4 קרם ברולה/מוסים, 10 עוגיות חמאה/שושני מרנג, עוגה בחושה קטנה', image:'images/product-15.jpg', choiceGroups:[{label:'בחרו: קרם ברולה או מוסים', options:['קרם ברולה','מוסים']},{label:'בחרו: עוגיות חמאה או שושני מרנג', options:['עוגיות חמאה','שושני מרנג']}]},
       {name:'מארז פיצוץ', price:'275 ₪', desc:'עוגה בחושה קטנה, 6 עוגיות שוקולד במילוי חמאת בוטנים, 5 קייקפופס, 4 ריבועי בראוניז, 3 מרנג', image:'images/product-17.jpg'}
     ]},
     { id:'cakes', label:'עוגות מעוצבות', items:[
-      {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg', priceOptions:[{label:'ספרה אחת – 180 ₪', price:180},{label:'שתי ספרות – 360 ₪', price:360}], allowCakeText:true, cakeTextLabel:'איזה מספר לרשום?'},
-      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 160 ₪', price:160},{label:'A4 – 200 ₪', price:200}], allowCakeText:true},
+      {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg', priceOptions:[{label:'ספרה אחת – 180 ₪', price:180},{label:'שתי ספרות – 360 ₪', price:360}], allowCakeText:true, cakeTextLabel:'איזה מספר לרשום?', cakeTextPlaceholder:'לדוגמה: 18'},
+      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 160 ₪', price:160},{label:'A4 – 200 ₪', price:200}], allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח'},
       {name:'עוגה מעוצבת בהתאמה אישית', price:'החל מ-300 ₪', desc:'עוגה בעיצוב אישי לפי בקשה — לא רק דמויות, אלא כל נושא, אירוע או קונספט שתרצו (סרטים, מסיבות, צורות מיוחדות ועוד). המחיר תלוי בקוטר ובמורכבות העיצוב, ויכול להיות גבוה יותר מהמחירים הבסיסיים בהתאם לרמת הפירוט המבוקשת — לתמחור מדויק כדאי לשלוח השראה או תמונה בוואטסאפ.', image:[
         {label:'פיקאצ׳ו', src:'images/gallery-09.jpg'},
         {label:'וואן פיס', src:'images/gallery-14.jpg'},
         {label:'Wicked', src:'images/gallery-11.jpg'}
-      ], priceOptions:[{label:'קוטר 18 – 340 ₪', price:340},{label:'קוטר 20 – 365 ₪', price:365},{label:'קוטר 22 – 395 ₪', price:395}], allowCakeText:true, cakeTextLabel:'איזה עיצוב/דמות תרצו? (מומלץ לצרף גם רפרנס בוואטסאפ)'},
-      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 185 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', allowCakeText:true, nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
+      ], priceOptions:[{label:'קוטר 18 – 340 ₪', price:340},{label:'קוטר 20 – 365 ₪', price:365},{label:'קוטר 22 – 395 ₪', price:395}], allowCakeText:true, cakeTextLabel:'איזה עיצוב/דמות תרצו? (מומלץ לצרף גם רפרנס בוואטסאפ)', cakeTextPlaceholder:'לדוגמה: פיקאצ׳ו, וואן פיס...'},
+      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 185 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
     ]},
     { id:'cookies', label:'עוגיות ומאפים', items:[
-      {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 80 ₪', price:80, flavorMax:1},{label:'8 יח׳ – 105 ₪', price:105, flavorMax:1},{label:'12 יח׳ – 135 ₪', price:135, flavorMax:2}], flavors:['שוקולד ציפס','אמסטרדם','שוקולד במילוי בוטנים'], image:[
+      {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 80 ₪', price:80, flavorMax:1},{label:'8 יח׳ – 105 ₪', price:105, flavorMax:1},{label:'12 יח׳ – 135 ₪', price:135, flavorMax:2}], flavors:['שוקולד ציפס','אמסטרדם','שוקולד במילוי בוטנים'], flavorLabel:'בחרו עד 2 טעמים (החל מ-12 יח׳)', image:[
         {label:'שוקולד ציפס', src:'images/product-07.jpg'},
         {label:'שוקולד במילוי בוטנים', src:'images/product-08.jpg'},
         {label:'אמסטרדם', src:'images/product-21.jpg'}
@@ -812,32 +823,32 @@
         {label:'אמסטרדם', unit:'יחידה', perUnit:{cal:195, protein:5.24, carbs:7, fat:16.8}, per100g:{cal:347, protein:9.29, carbs:13, fat:29.82}},
         {label:'שוקולד במילוי בוטנים', unit:'יחידה', perUnit:{cal:192, protein:4.58, carbs:5, fat:17.86}, per100g:{cal:369, protein:8.8, carbs:9, fat:34.35}}
       ]},
-      {name:'בראוניז', price:'50 ₪ (4 יח׳) / 90 ₪ (9 יח׳)', desc:'ריבועי בראוניז עשירים בשוקולד', carbs:'7 גרם פחמימה לריבוע', image:'images/gallery-04.jpg', priceOptions:[{label:'60 ₪ (4 יח׳)', price:60},{label:'110 ₪ (9 יח׳)', price:110}], nutrition:{unit:'ריבוע', perUnit:{cal:239, protein:6.28, carbs:7, fat:21.46}, per100g:{cal:316, protein:8.32, carbs:9, fat:28.42}}},
+      {name:'בראוניז', price:'50 ₪ (4 יח׳) / 90 ₪ (9 יח׳)', desc:'ריבועי בראוניז עשירים בשוקולד', carbs:'7 גרם פחמימה לריבוע', image:'images/gallery-04.jpg', priceOptions:[{label:'60 ₪ (4 יח׳)', price:60},{label:'120 ₪ (9 יח׳)', price:120}], nutrition:{unit:'ריבוע', perUnit:{cal:239, protein:6.28, carbs:7, fat:21.46}, per100g:{cal:316, protein:8.32, carbs:9, fat:28.42}}},
       {name:'פאדג׳', price:'30 ₪ / 65 ₪', badge:'קיטו', desc:'חתיכות פאדג׳ שוקולד עשירות', carbs:'3 גרם פחמימה ליחידה', image:'images/product-12.jpg', priceOptions:[{label:'4 יח׳ – 40 ₪', price:40},{label:'9 יח׳ – 85 ₪', price:85}], nutrition:{unit:'יחידה', perUnit:{cal:117, protein:3.2, carbs:2, fat:10.07}, per100g:{cal:600, protein:16.46, carbs:11, fat:51.77}}},
       {name:'קייקפופס', price:'10 ₪ / 45 ₪ / 90 ₪', desc:'ציפוי שוקולד מריר או לבן, על מקל', carbs:'5–6 גרם פחמימה ליחידה, בהתאם לציפוי', image:'images/product-05.jpg', priceOptions:[{label:'1 יח׳ – 12 ₪', price:12, qty:1},{label:'5 יח׳ – 55 ₪', price:55, qty:5},{label:'10 יח׳ – 100 ₪', price:100, qty:10}], flavors:['ציפוי שוקולד מריר','ציפוי שוקולד לבן'], nutrition:[
         {label:'ציפוי שוקולד מריר', unit:'יחידה', perUnit:{cal:187, protein:3.55, carbs:5, fat:16.72}, per100g:{cal:425, protein:8.07, carbs:12, fat:38.01}},
         {label:'ציפוי שוקולד לבן', unit:'יחידה', perUnit:{cal:190, protein:3.63, carbs:6, fat:16.92}, per100g:{cal:431, protein:8.25, carbs:13, fat:38.46}}
       ]},
-      {name:'עוגיות חמאה', price:'40 ₪ (5 יח׳) / 75 ₪ (10 יח׳)', badge:'קיטו', desc:'עוגיות חמאה קלאסיות ופריכות', carbs:'2 גרם פחמימה ליחידה', image:'images/product-04.jpg', priceOptions:[{label:'40 ₪ (5 יח׳)', price:40},{label:'75 ₪ (10 יח׳)', price:75}], nutrition:{unit:'יחידה', perUnit:{cal:68, protein:1.92, carbs:2, fat:5.88}, per100g:{cal:346, protein:9.77, carbs:9, fat:29.93}}},
-      {name:'מקרונים', price:'95 ₪', desc:'טעמי שוקולד, וניל או קפה', carbs:'2 גרם פחמימה ליחידה', image:'images/product-20.jpg', flavors:['שוקולד','וניל','קפה'], nutrition:{unit:'יחידה', perUnit:{cal:51, protein:1.74, carbs:2, fat:3.86}, per100g:{cal:227, protein:7.69, carbs:10, fat:17.06}}}
+      {name:'עוגיות חמאה', price:'65 ₪ (10 יח׳) / 120 ₪ (20 יח׳)', badge:'קיטו', desc:'עוגיות חמאה קלאסיות ופריכות', carbs:'2 גרם פחמימה ליחידה', image:'images/product-04.jpg', priceOptions:[{label:'65 ₪ (10 יח׳)', price:65},{label:'120 ₪ (20 יח׳)', price:120}], nutrition:{unit:'יחידה', perUnit:{cal:68, protein:1.92, carbs:2, fat:5.88}, per100g:{cal:346, protein:9.77, carbs:9, fat:29.93}}},
+      {name:'מקרונים', price:'95 ₪ (10 יח׳)', desc:'טעמי שוקולד, וניל או קפה', carbs:'2 גרם פחמימה ליחידה', image:'images/product-20.jpg', flavors:['שוקולד','וניל','קפה'], flavorCap:2, flavorLabel:'בחרו עד 2 טעמים', nutrition:{unit:'יחידה', perUnit:{cal:51, protein:1.74, carbs:2, fat:3.86}, per100g:{cal:227, protein:7.69, carbs:10, fat:17.06}}},
+      {name:'מיני-דונאטס', price:'50 ₪ (6 יח׳) / 100 ₪ (12 יח׳)', desc:'בציפוי שוקולד מריר או לבן', carbs:'4 גרם פחמימה ליחידה', image:'images/product-03.jpg', flavors:['בציפוי שוקולד מריר','בציפוי שוקולד לבן'], priceOptions:[{label:'60 ₪ (6 יח׳)', price:60},{label:'115 ₪ (12 יח׳)', price:115}], nutrition:{unit:'יחידה', perUnit:{cal:112, protein:2.11, carbs:4, fat:9.65}, per100g:{cal:371, protein:7, carbs:13, fat:31.99}}}
     ]},
     { id:'creams', label:'קרמים ומוסים', items:[
       {name:'קרם ברולה', price:'25 ₪ / 125 ₪ (6 יח׳)', badge:'קיטו', desc:'קרם וניל קלאסי עם שכבת קרמל פריכה', carbs:'4 גרם פחמימה לתבנית', image:'images/gallery-16.jpg', priceOptions:[{label:'25 ₪ (יחידה)', price:25},{label:'125 ₪ (6 יח׳)', price:125}], nutrition:{unit:'תבנית', perUnit:{cal:220, protein:5.3, carbs:4, fat:19.51}, per100g:{cal:183, protein:4.42, carbs:3, fat:16.26}}},
       {name:'מוסים', price:'25 ₪ / 125 ₪ (6 יח׳)', badge:'קיטו', desc:'טעמים: פררו רושה, רפאלו ופטיסייר', carbs:'2 גרם פחמימה לתבנית', image:'images/product-13.jpg', flavors:['פררו רושה','רפאלו','פטיסייר'], priceOptions:[{label:'25 ₪ (יחידה)', price:25, qty:1},{label:'125 ₪ (6 יח׳)', price:125, qty:6}], nutrition:{unit:'יחידה', perUnit:{cal:362, protein:4.24, carbs:3, fat:36.76}, per100g:{cal:318, protein:3.73, carbs:3, fat:32.34}}},
       {name:'פבלובה', price:'25 ₪ / 140 ₪ (6 יח׳)', desc:'מתכון מסורתי בגרסה דלת פחמימה', carbs:'1 גרם פחמימה ליחידה', image:'images/product-09.jpg', priceOptions:[{label:'30 ₪ (יחידה)', price:30},{label:'160 ₪ (6 יח׳)', price:160}], nutrition:{unit:'יחידה', perUnit:{cal:153, protein:2.56, carbs:1, fat:15.23}, per100g:{cal:222, protein:3.71, carbs:2, fat:22.07}}},
       {name:'שושני מרנג', price:'30 ₪ (5 יח׳) / 55 ₪ (10 יח׳)', badge:'קיטו', desc:'מרנג קליל בצורת שושנים', carbs:'0 גרם פחמימה ליחידה', image:'images/gallery-05.jpg', priceOptions:[{label:'35 ₪ (5 יח׳)', price:35},{label:'65 ₪ (10 יח׳)', price:65}], nutrition:{unit:'יחידה', perUnit:{cal:3, protein:0.72, carbs:0, fat:0.01}, per100g:{cal:25, protein:5.29, carbs:0, fat:0.08}}},
-      {name:'מרנג על מקל', price:'40 ₪ (5 יח׳) / 75 ₪ (10 יח׳)', badge:'קיטו', desc:'מרנג פריך על מקל, אידאלי למארזים', carbs:'0 גרם פחמימה ליחידה', image:'images/product-14.jpg', priceOptions:[{label:'45 ₪ (5 יח׳)', price:45},{label:'85 ₪ (10 יח׳)', price:85}], nutrition:{unit:'יחידה', perUnit:{cal:3, protein:0.72, carbs:0, fat:0.01}, per100g:{cal:25, protein:5.29, carbs:0, fat:0.08}}},
-      {name:'מיני-דונאטס', price:'50 ₪ (6 יח׳) / 100 ₪ (12 יח׳)', desc:'במילוי שוקולד מריר או לבן', carbs:'4 גרם פחמימה ליחידה', image:'images/product-03.jpg', flavors:['במילוי שוקולד מריר','במילוי שוקולד לבן'], priceOptions:[{label:'60 ₪ (6 יח׳)', price:60},{label:'115 ₪ (12 יח׳)', price:115}], nutrition:{unit:'יחידה', perUnit:{cal:112, protein:2.11, carbs:4, fat:9.65}, per100g:{cal:371, protein:7, carbs:13, fat:31.99}}}
+      {name:'מרנג על מקל', price:'40 ₪ (5 יח׳) / 75 ₪ (10 יח׳)', badge:'קיטו', desc:'מרנג פריך על מקל, אידאלי למארזים', carbs:'0 גרם פחמימה ליחידה', image:'images/product-14.jpg', priceOptions:[{label:'45 ₪ (5 יח׳)', price:45},{label:'85 ₪ (10 יח׳)', price:85}], nutrition:{unit:'יחידה', perUnit:{cal:3, protein:0.72, carbs:0, fat:0.01}, per100g:{cal:25, protein:5.29, carbs:0, fat:0.08}}}
     ]},
     { id:'homecakes', label:'עוגות ביתיות', items:[
-      {name:'עוגה בחושה', price:'קטנה 60 ₪ / גדולה 70 ₪', badge:'קיטו', desc:'טעמי שוקולד, וניל וקפה, או בננות ותפוחים מקורמלים', carbs:'3–5 גרם פחמימה לפרוסה, בהתאם לטעם', image:'images/gallery-15.jpg', flavors:['שוקולד','וניל','קפה','בננות ותפוחים מקורמלים'], priceOptions:[{label:'קטנה – 60 ₪', price:60},{label:'גדולה – 85 ₪', price:85}], nutrition:{unit:'פרוסה', perUnit:{cal:274, protein:4.85, carbs:3, fat:26.73}, per100g:{cal:472, protein:8.34, carbs:6, fat:45.99}}},
+      {name:'עוגה בחושה', price:'קטנה 60 ₪ / גדולה 85 ₪', badge:'קיטו', desc:'טעמי שוקולד, וניל וקפה, בננות ותפוחים מקורמלים, או אגוזים', carbs:'3–5 גרם פחמימה לפרוסה, בהתאם לטעם', image:'images/gallery-15.jpg', flavors:['שוקולד','וניל','קפה','בננות ותפוחים מקורמלים','אגוזים'], flavorCap:1, flavorLabel:'בחרו טעם', priceOptions:[{label:'גדולה – 85 ₪', price:85},{label:'קטנה – 60 ₪', price:60}], nutrition:{unit:'פרוסה', perUnit:{cal:274, protein:4.85, carbs:3, fat:26.73}, per100g:{cal:472, protein:8.34, carbs:6, fat:45.99}}},
       {name:'עוגת גבינה (אינגליש קייק)', price:'115 ₪', badge:'קיטו', desc:'עוגת גבינה קלאסית בתבנית אינגליש קייק', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-10.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}},
       {name:'עוגת שמרים שוקולד', price:'85 ₪', desc:'עוגת שמרים ממולאת שוקולד', carbs:'8 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-11.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:267, protein:6.69, carbs:8, fat:23.45}, per100g:{cal:422, protein:10.57, carbs:13, fat:37.07}}},
       {name:'עוגת שמרים קינמון', price:'85 ₪', desc:'עוגת שמרים עם קינמון', carbs:'8 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-11.jpg', nutrition:{unit:'פרוסה', perUnit:{cal:267, protein:6.69, carbs:8, fat:23.45}, per100g:{cal:422, protein:10.57, carbs:13, fat:37.07}}}
     ]},
     { id:'platters', label:'במות קינוחים', items:[
-      {name:'במת קינוחי כוסות', price:'170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי טירמיסו, שוקולד, וניל לימוני ואגוזי לוז', carbs:'1 גרם פחמימה לכוס (חלבי) / 5 גרם (פרווה)', image:'images/product-02.jpg', flavors:['טירמיסו','שוקולד','וניל לימוני','אגוזי לוז'], nutrition:{unit:'כוס', perUnit:{cal:94, protein:0.56, carbs:1, fat:9.68}, per100g:{cal:250, protein:1.5, carbs:3, fat:25.81}}},
-      {name:'במת קאפקייקס', price:'170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי שוקולד או וניל', carbs:'3 גרם פחמימה ליחידה', image:'images/product-06.jpg', flavors:['שוקולד','וניל'], nutrition:{unit:'יחידה', perUnit:{cal:189, protein:4.42, carbs:2, fat:18.02}, per100g:{cal:337, protein:7.87, carbs:4, fat:32.08}}}
+      {name:'במת קינוחי כוסות', price:'95 ₪ (6 יח׳) / 170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי טירמיסו, שוקולד, וניל לימוני ואגוזי לוז', carbs:'1 גרם פחמימה לכוס (חלבי) / 5 גרם (פרווה)', image:'images/product-02.jpg', flavors:['טירמיסו','שוקולד','וניל לימוני','אגוזי לוז'], priceOptions:[{label:'12 יח׳ – 170 ₪', price:170, qty:12, flavorMax:2},{label:'6 יח׳ – 95 ₪', price:95, qty:6, flavorMax:1}], nutrition:{unit:'כוס', perUnit:{cal:94, protein:0.56, carbs:1, fat:9.68}, per100g:{cal:250, protein:1.5, carbs:3, fat:25.81}}},
+      {name:'במת קאפקייקס', price:'95 ₪ (6 יח׳) / 170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי שוקולד או וניל', carbs:'3 גרם פחמימה ליחידה', image:'images/product-06.jpg', flavors:['שוקולד','וניל'], priceOptions:[{label:'12 יח׳ – 170 ₪', price:170, qty:12, flavorMax:2},{label:'6 יח׳ – 95 ₪', price:95, qty:6, flavorMax:1}], allowCakeText:true, cakeTextLabel:'אילו צבעים תרצו לציפוי?', cakeTextPlaceholder:'לדוגמה: לבן וסגול', nutrition:{unit:'יחידה', perUnit:{cal:189, protein:4.42, carbs:2, fat:18.02}, per100g:{cal:337, protein:7.87, carbs:4, fat:32.08}}}
     ]}
   ];
 
@@ -891,14 +902,14 @@
             g.options.map(function(o, oi){ return '<label class="flavor-pill"><input type="radio" name="choice-' + itemId + '-' + gi + '" value="' + o + '"> ' + o + '</label>'; }).join('') +
           '</div>';
         }).join('') : '') +
-        (item.allowCakeText ? '<input type="text" class="cake-text-input" placeholder="' + (item.cakeTextLabel || 'מה לכתוב על העוגה? (אופציונלי)') + '" style="width:100%;margin-top:10px;border:2px solid var(--line);border-radius:10px;padding:7px 10px;font-size:calc(13.5px * var(--fs,1));font-family:\'Heebo\',sans-serif;">' : '') +
+        (item.allowCakeText ? '<label class="flavor-label">' + (item.cakeTextLabel || 'מה לכתוב על העוגה? (אופציונלי)') + '</label><input type="text" class="cake-text-input" placeholder="' + (item.cakeTextPlaceholder || 'לדוגמה: יום הולדת שמח') + '" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:7px 10px;font-size:calc(13.5px * var(--fs,1));font-family:\'Heebo\',sans-serif;">' : '') +
         '<div class="add-cart-row">' +
+          '<button type="button" class="minus-cart-btn" data-id="' + itemId + '" aria-label="הסרת יחידה">−</button>' +
           '<button type="button" class="add-cart-btn" data-id="' + itemId + '">הוסיפו להזמנה</button>' +
           '<span class="cart-qty-badge" id="qty-' + itemId + '"></span>' +
         '</div>';
-      var addBtn = card.querySelector('.add-cart-btn');
-      addBtn.addEventListener('click', function(e){
-        e.stopPropagation();
+
+      function computeCartContext(){
         var flavor = '';
         if (item.flavors){
           var checked = card.querySelectorAll('.flavor-pill input:checked');
@@ -918,10 +929,10 @@
             var checkedRadio = groupEl.querySelector('input:checked');
             if (checkedRadio) chosenGroups.push(checkedRadio.value);
           });
-          choices = chosenGroups.join(' + ');
+          choices = chosenGroups.join(', ');
         }
         var noteParts = [];
-        if (flavor) noteParts.push('טעם: ' + flavor);
+        if (flavor) noteParts.push((item.flavorNoteLabel || 'טעם') + ': ' + flavor);
         if (choices) noteParts.push('בחירה: ' + choices);
         if (cakeText) noteParts.push(cakeText);
         var note = noteParts.join(' | ');
@@ -929,11 +940,22 @@
         if (item.priceOptions){
           var sel = card.querySelector('.price-select');
           var opt = sel.options[sel.selectedIndex];
-          var cartId = itemId + '-' + opt.value + '-' + sel.selectedIndex + noteKey;
-          window.MatokCart.add(cartId, item.name, opt.text, Number(opt.value), note);
-        } else {
-          window.MatokCart.add(itemId + noteKey, item.name, item.price, null, note);
+          return { cartId: itemId + '-' + opt.value + '-' + sel.selectedIndex + noteKey, name: item.name, price: opt.text, unitPrice: Number(opt.value), note: note };
         }
+        return { cartId: itemId + noteKey, name: item.name, price: item.price, unitPrice: null, note: note };
+      }
+
+      var addBtn = card.querySelector('.add-cart-btn');
+      addBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var ctx = computeCartContext();
+        window.MatokCart.add(ctx.cartId, ctx.name, ctx.price, ctx.unitPrice, ctx.note);
+      });
+      var minusBtn = card.querySelector('.minus-cart-btn');
+      minusBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var ctx = computeCartContext();
+        window.MatokCart.decrement(ctx.cartId);
       });
       card.querySelector('.item-title-clickable').addEventListener('click', function(){
         window.MatokPhoto.open(item.name, item.image || null);
