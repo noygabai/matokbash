@@ -122,7 +122,7 @@
   .menu-list.active{display:grid;}
   @media (max-width:820px){ .menu-list.active{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .menu-list.active{grid-template-columns:1fr;} }
-  .item{background:var(--cream);border-radius:16px;padding:20px;border:1px solid var(--line);position:relative;}
+  .item{background:var(--cream);border-radius:16px;padding:20px;border:1px solid var(--line);position:relative;display:flex;flex-direction:column;}
   .item .badge{position:absolute;top:-12px;left:14px;background:var(--teal);color:#fff;font-size:calc(13px * var(--fs,1));font-weight:800;padding:6px 16px;border-radius:999px;box-shadow:0 3px 8px rgba(0,0,0,.15);}
   .item h3{font-size:calc(17px * var(--fs,1));font-weight:700;margin-bottom:6px;color:var(--ink);}
   .item .price{font-weight:900;color:var(--pink);font-size:calc(16px * var(--fs,1));margin-bottom:8px;font-family:'Rubik',sans-serif;}
@@ -136,12 +136,13 @@
   .flavor-pill:has(input:checked){border-color:var(--pink);background:var(--blush,#FFE9F1);color:var(--pink-deep);font-weight:700;}
   .item p{font-size:calc(14px * var(--fs,1));color:var(--ink-soft);margin:0;}
   .item .carbs{display:inline-block;margin-top:10px;font-size:calc(12.5px * var(--fs,1));font-weight:700;color:var(--teal-deep);background:#fff;border:1px solid var(--teal);border-radius:999px;padding:3px 12px;}
-  .add-cart-row{display:flex;align-items:center;gap:8px;margin-top:12px;}
+  .add-cart-row{margin-top:auto;padding-top:12px;}
   .add-cart-btn{background:var(--teal-deep);color:#fff;border:none;border-radius:999px;padding:8px 16px;font-weight:700;font-size:calc(13px * var(--fs,1));cursor:pointer;}
   .add-cart-btn:hover{background:var(--pink);}
-  .minus-cart-btn{width:30px;height:30px;flex:none;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer;}
-  .minus-cart-btn:hover{border-color:var(--pink);color:var(--pink);}
-  .cart-qty-badge{font-size:calc(13px * var(--fs,1));font-weight:800;color:var(--pink);display:none;}
+  .qty-stepper{display:flex;align-items:center;justify-content:space-between;background:var(--teal-deep);border-radius:999px;padding:4px;width:100%;max-width:140px;}
+  .qty-stepper button{width:28px;height:28px;flex:none;border-radius:50%;border:none;background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .qty-stepper button:hover{background:rgba(255,255,255,.4);}
+  .qty-stepper .qty-num{color:#fff;font-weight:800;font-size:calc(14px * var(--fs,1));min-width:20px;text-align:center;}
 
   .cart-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
   .cart-row .cart-row-name{flex:1;font-size:calc(14px * var(--fs,1));font-weight:700;}
@@ -540,15 +541,7 @@
     } else {
       badge.style.display = 'none';
     }
-    document.querySelectorAll('.cart-qty-badge').forEach(function(el){
-      var baseId = el.id.replace('qty-', '');
-      var total = 0;
-      Object.keys(cart).forEach(function(k){
-        if (k === baseId || k.indexOf(baseId + '-') === 0){ total += cart[k].qty; }
-      });
-      if (total > 0){ el.textContent = 'בהזמנה: ' + total; el.style.display = 'inline'; }
-      else { el.style.display = 'none'; }
-    });
+    window.MatokCartControls.forEach(function(fn){ fn(); });
   }
 
   function renderCart(){
@@ -641,6 +634,8 @@
     document.getElementById('cartCheckout').setAttribute('href', 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(msg));
   }
 
+  window.MatokCartControls = [];
+
   window.MatokCart = {
     add: function(id, name, price, unitPrice, note){
       if (cart[id]) cart[id].qty += 1;
@@ -656,6 +651,9 @@
       updateBadges();
       renderCart();
       buildCheckoutLink();
+    },
+    getQty: function(id){
+      return cart[id] ? cart[id].qty : 0;
     }
   };
 
@@ -903,11 +901,7 @@
           '</div>';
         }).join('') : '') +
         (item.allowCakeText ? '<label class="flavor-label">' + (item.cakeTextLabel || 'מה לכתוב על העוגה? (אופציונלי)') + '</label><input type="text" class="cake-text-input" placeholder="' + (item.cakeTextPlaceholder || 'לדוגמה: יום הולדת שמח') + '" style="width:100%;margin-top:6px;border:2px solid var(--line);border-radius:10px;padding:7px 10px;font-size:calc(13.5px * var(--fs,1));font-family:\'Heebo\',sans-serif;">' : '') +
-        '<div class="add-cart-row">' +
-          '<button type="button" class="minus-cart-btn" data-id="' + itemId + '" aria-label="הסרת יחידה">−</button>' +
-          '<button type="button" class="add-cart-btn" data-id="' + itemId + '">הוסיפו להזמנה</button>' +
-          '<span class="cart-qty-badge" id="qty-' + itemId + '"></span>' +
-        '</div>';
+        '<div class="add-cart-row" id="cart-ctl-' + itemId + '"></div>';
 
       function computeCartContext(){
         var flavor = '';
@@ -945,18 +939,45 @@
         return { cartId: itemId + noteKey, name: item.name, price: item.price, unitPrice: null, note: note };
       }
 
-      var addBtn = card.querySelector('.add-cart-btn');
-      addBtn.addEventListener('click', function(e){
-        e.stopPropagation();
+      var ctlEl = card.querySelector('.add-cart-row');
+
+      function renderCartControl(){
         var ctx = computeCartContext();
-        window.MatokCart.add(ctx.cartId, ctx.name, ctx.price, ctx.unitPrice, ctx.note);
+        var qty = (window.MatokCart.getQty) ? window.MatokCart.getQty(ctx.cartId) : 0;
+        if (qty > 0){
+          ctlEl.innerHTML =
+            '<div class="qty-stepper">' +
+              '<button type="button" class="qty-minus" aria-label="הסרת יחידה">−</button>' +
+              '<span class="qty-num">' + qty + '</span>' +
+              '<button type="button" class="qty-plus" aria-label="הוספת יחידה">+</button>' +
+            '</div>';
+          ctlEl.querySelector('.qty-minus').addEventListener('click', function(e){
+            e.stopPropagation();
+            window.MatokCart.decrement(computeCartContext().cartId);
+          });
+          ctlEl.querySelector('.qty-plus').addEventListener('click', function(e){
+            e.stopPropagation();
+            var c = computeCartContext();
+            window.MatokCart.add(c.cartId, c.name, c.price, c.unitPrice, c.note);
+          });
+        } else {
+          ctlEl.innerHTML = '<button type="button" class="add-cart-btn">הוסיפו להזמנה</button>';
+          ctlEl.querySelector('.add-cart-btn').addEventListener('click', function(e){
+            e.stopPropagation();
+            var c = computeCartContext();
+            window.MatokCart.add(c.cartId, c.name, c.price, c.unitPrice, c.note);
+          });
+        }
+      }
+      window.MatokCartControls.push(renderCartControl);
+      renderCartControl();
+      var variantSelEl = card.querySelector('.price-select');
+      if (variantSelEl) variantSelEl.addEventListener('change', renderCartControl);
+      card.querySelectorAll('.flavor-pill input').forEach(function(inp){
+        inp.addEventListener('change', renderCartControl);
       });
-      var minusBtn = card.querySelector('.minus-cart-btn');
-      minusBtn.addEventListener('click', function(e){
-        e.stopPropagation();
-        var ctx = computeCartContext();
-        window.MatokCart.decrement(ctx.cartId);
-      });
+      var cakeTextInputEl = card.querySelector('.cake-text-input');
+      if (cakeTextInputEl) cakeTextInputEl.addEventListener('input', renderCartControl);
       card.querySelector('.item-title-clickable').addEventListener('click', function(){
         window.MatokPhoto.open(item.name, item.image || null);
       });
