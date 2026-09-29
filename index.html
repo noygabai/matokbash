@@ -165,6 +165,12 @@
   .photo-modal .photo-modal-body{padding:18px;text-align:center;}
   .photo-modal .photo-modal-body h4{margin:0;font-size:calc(17px * var(--fs,1));color:var(--ink);}
   .photo-modal .photo-modal-placeholder{padding:50px 20px;color:var(--ink-soft);font-size:calc(14px * var(--fs,1));}
+  .photo-frame{position:relative;}
+  .photo-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .photo-nav:hover{background:rgba(0,0,0,.75);}
+  .photo-nav-prev{left:10px;}
+  .photo-nav-next{right:10px;}
+  .photo-counter{margin-top:6px;font-size:calc(13px * var(--fs,1));color:var(--ink-soft);font-weight:700;}
   .photo-modal-close{position:absolute;top:10px;left:10px;background:var(--card);border:none;border-radius:50%;width:32px;height:32px;font-size:20px;line-height:1;cursor:pointer;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.2);}
 
   .press{padding:60px 0 10px;text-align:center;}
@@ -728,12 +734,30 @@
         return;
       }
       var items = Array.isArray(image) ? image : [{ src: image, label: null }];
-      var html = '';
-      items.forEach(function(it, idx){
-        html += '<img src="' + it.src + '" alt="' + name + (it.label ? ' - ' + it.label : '') + '">';
-        html += '<div class="photo-modal-body"><h4>' + name + (it.label ? ' — ' + it.label : '') + '</h4></div>';
-      });
-      content.innerHTML = html;
+      var current = 0;
+
+      function render(){
+        var it = items[current];
+        var caption = name + (it.label ? ' — ' + it.label : '');
+        var arrows = '';
+        if (items.length > 1){
+          arrows =
+            '<button type="button" class="photo-nav photo-nav-prev" aria-label="התמונה הקודמת">&#8249;</button>' +
+            '<button type="button" class="photo-nav photo-nav-next" aria-label="התמונה הבאה">&#8250;</button>';
+        }
+        var counter = items.length > 1 ? '<div class="photo-counter">' + (current + 1) + ' / ' + items.length + '</div>' : '';
+        content.innerHTML =
+          '<div class="photo-frame">' +
+            '<img src="' + it.src + '" alt="' + caption + '">' +
+            arrows +
+          '</div>' +
+          '<div class="photo-modal-body"><h4>' + caption + '</h4>' + counter + '</div>';
+        if (items.length > 1){
+          content.querySelector('.photo-nav-prev').addEventListener('click', function(e){ e.stopPropagation(); current = (current - 1 + items.length) % items.length; render(); });
+          content.querySelector('.photo-nav-next').addEventListener('click', function(e){ e.stopPropagation(); current = (current + 1) % items.length; render(); });
+        }
+      }
+      render();
       overlay.classList.add('open');
     }
   };
@@ -803,13 +827,18 @@
     ]},
     { id:'cakes', label:'עוגות מעוצבות', items:[
       {name:'עוגת מספרים', price:'150 ₪ לספרה', desc:'ספרה בגודל A4, שכבות פריך ושכבות קרם וניל/שוקולד, קישוט לבחירה', carbs:'7 גרם פחמימה לפרוסה (מתוך 12 פרוסות)', image:'images/gallery-10.jpg', priceOptions:[{label:'ספרה אחת – 180 ₪', price:180},{label:'שתי ספרות – 360 ₪', price:360}], allowCakeText:true, cakeTextLabel:'איזה מספר לרשום?', cakeTextPlaceholder:'לדוגמה: 18'},
-      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:'images/product-01.jpg', priceOptions:[{label:'קוטר 22 – 160 ₪', price:160},{label:'A4 – 200 ₪', price:200}], allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח'},
+      {name:'עוגת גן', price:'A4: 150 ₪ | קוטר 22: 120 ₪', desc:'עוגת שוקולד מצופה בגנאש שוקולד, סוכריות צבעוניות וזילופי קצפת', image:[
+        {label:'', src:'images/product-01.jpg'},
+        {label:'A4', src:'images/product-29.jpg'}
+      ], priceOptions:[{label:'קוטר 22 – 160 ₪', price:160},{label:'A4 – 200 ₪', price:200}], allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח'},
       {name:'עוגה מעוצבת בהתאמה אישית', price:'החל מ-300 ₪', desc:'עוגה בעיצוב אישי לפי בקשה — לא רק דמויות, אלא כל נושא, אירוע או קונספט שתרצו (סרטים, מסיבות, צורות מיוחדות ועוד). המחיר תלוי בקוטר ובמורכבות העיצוב, ויכול להיות גבוה יותר מהמחירים הבסיסיים בהתאם לרמת הפירוט המבוקשת — לתמחור מדויק כדאי לשלוח השראה או תמונה בוואטסאפ.', image:[
         {label:'פיקאצ׳ו', src:'images/gallery-09.jpg'},
         {label:'וואן פיס', src:'images/gallery-14.jpg'},
-        {label:'Wicked', src:'images/gallery-11.jpg'}
+        {label:'Wicked', src:'images/gallery-11.jpg'},
+        {label:'חג המולד', src:'images/product-27.jpg'},
+        {label:'Brawl Stars', src:'images/product-28.jpg'}
       ], priceOptions:[{label:'קוטר 18 – 340 ₪', price:340},{label:'קוטר 20 – 365 ₪', price:365},{label:'קוטר 22 – 395 ₪', price:395}], allowCakeText:true, cakeTextLabel:'איזה עיצוב/דמות תרצו? (מומלץ לצרף גם רפרנס בוואטסאפ)', cakeTextPlaceholder:'לדוגמה: פיקאצ׳ו, וואן פיס...'},
-      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 185 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-22.jpg', allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
+      {name:'עוגת גבינה של הביוקר', price:'קוטר 22: 185 ₪', badge:'קיטו', desc:'עוגת גבינה עם זילופי קצפת במסגרת, קישוט זהב, שוקולד ציפס, הקדשה אישית', carbs:'2 גרם פחמימה לפרוסה (מתוך 8 פרוסות)', image:'images/product-25.jpg', allowCakeText:true, cakeTextPlaceholder:'לדוגמה: יום הולדת שמח', nutrition:{unit:'פרוסה', perUnit:{cal:223, protein:3.92, carbs:2, fat:21.99}, per100g:{cal:225, protein:3.95, carbs:2, fat:22.15}}}
     ]},
     { id:'cookies', label:'עוגיות ומאפים', items:[
       {name:'עוגיות', price:'החל מ-70 ₪ (6 יח׳)', desc:'שוקולד ציפס / אמסטרדם / שוקולד במילוי בוטנים — גם ב-8 וב-12 יח׳', carbs:'5–7 גרם פחמימה ליחידה, בהתאם לטעם', priceOptions:[{label:'6 יח׳ – 80 ₪', price:80, flavorMax:1},{label:'8 יח׳ – 105 ₪', price:105, flavorMax:1},{label:'12 יח׳ – 135 ₪', price:135, flavorMax:2}], flavors:['שוקולד ציפס','אמסטרדם','שוקולד במילוי בוטנים'], flavorLabel:'בחרו עד 2 טעמים (החל מ-12 יח׳)', image:[
@@ -846,7 +875,11 @@
     ]},
     { id:'platters', label:'במות קינוחים', items:[
       {name:'במת קינוחי כוסות', price:'95 ₪ (6 יח׳) / 170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי טירמיסו, שוקולד, וניל לימוני ואגוזי לוז', carbs:'1 גרם פחמימה לכוס (חלבי) / 5 גרם (פרווה)', image:'images/product-02.jpg', flavors:['טירמיסו','שוקולד','וניל לימוני','אגוזי לוז'], priceOptions:[{label:'12 יח׳ – 170 ₪', price:170, qty:12, flavorMax:2},{label:'6 יח׳ – 95 ₪', price:95, qty:6, flavorMax:1}], nutrition:{unit:'כוס', perUnit:{cal:94, protein:0.56, carbs:1, fat:9.68}, per100g:{cal:250, protein:1.5, carbs:3, fat:25.81}}},
-      {name:'במת קאפקייקס', price:'95 ₪ (6 יח׳) / 170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי שוקולד או וניל', carbs:'3 גרם פחמימה ליחידה', image:'images/product-06.jpg', flavors:['שוקולד','וניל'], priceOptions:[{label:'12 יח׳ – 170 ₪', price:170, qty:12, flavorMax:2},{label:'6 יח׳ – 95 ₪', price:95, qty:6, flavorMax:1}], allowCakeText:true, cakeTextLabel:'אילו צבעים תרצו לציפוי?', cakeTextPlaceholder:'לדוגמה: לבן וסגול', nutrition:{unit:'יחידה', perUnit:{cal:189, protein:4.42, carbs:2, fat:18.02}, per100g:{cal:337, protein:7.87, carbs:4, fat:32.08}}}
+      {name:'במת קאפקייקס', price:'95 ₪ (6 יח׳) / 170 ₪ (12 יח׳)', badge:'קיטו', desc:'טעמי שוקולד או וניל', carbs:'3 גרם פחמימה ליחידה', image:[
+        {label:'', src:'images/product-06.jpg'},
+        {label:'עיצוב טורקיז', src:'images/product-23.jpg'},
+        {label:'עיצוב ורוד', src:'images/product-24.jpg'}
+      ], flavors:['שוקולד','וניל'], priceOptions:[{label:'12 יח׳ – 170 ₪', price:170, qty:12, flavorMax:2},{label:'6 יח׳ – 95 ₪', price:95, qty:6, flavorMax:1}], allowCakeText:true, cakeTextLabel:'אילו צבעים תרצו לציפוי?', cakeTextPlaceholder:'לדוגמה: לבן וסגול', nutrition:{unit:'יחידה', perUnit:{cal:189, protein:4.42, carbs:2, fat:18.02}, per100g:{cal:337, protein:7.87, carbs:4, fat:32.08}}}
     ]}
   ];
 
