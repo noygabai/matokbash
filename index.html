@@ -158,6 +158,12 @@
   .nutri-table th{background:var(--cream);font-weight:800;}
   .item-title-clickable:hover{text-decoration:underline;color:var(--pink);}
   .item-thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;margin-bottom:10px;cursor:pointer;}
+  .thumb-frame{position:relative;}
+  .thumb-frame .item-thumb{margin-bottom:10px;}
+  .thumb-nav{position:absolute;top:50%;transform:translateY(-50%);width:30px;height:30px;border-radius:50%;border:none;background:rgba(0,0,0,.5);color:#fff;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .thumb-nav:hover{background:rgba(0,0,0,.7);}
+  .thumb-nav-prev{left:8px;}
+  .thumb-nav-next{right:8px;}
   .photo-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:85;display:none;align-items:center;justify-content:center;padding:20px;}
   .photo-modal-overlay.open{display:flex;}
   .photo-modal{background:var(--card);border-radius:16px;max-width:480px;width:100%;max-height:85vh;overflow-y:auto;position:relative;}
@@ -727,14 +733,14 @@
   var closeBtn = document.getElementById('photoClose');
 
   window.MatokPhoto = {
-    open: function(name, image){
+    open: function(name, image, startIndex){
       if (!image){
         content.innerHTML = '<div class="photo-modal-placeholder"><h4 style="margin:0 0 8px;color:var(--ink);">' + name + '</h4>התמונה של המוצר תתווסף בקרוב 🙂</div>';
         overlay.classList.add('open');
         return;
       }
       var items = Array.isArray(image) ? image : [{ src: image, label: null }];
-      var current = 0;
+      var current = (typeof startIndex === 'number' && items[startIndex]) ? startIndex : 0;
 
       function render(){
         var it = items[current];
@@ -921,7 +927,15 @@
       }
       card.innerHTML =
         (item.badge ? '<span class="badge">' + item.badge + '</span>' : '') +
-        (thumbSrc ? '<img class="item-thumb" src="' + thumbSrc + '" alt="' + item.name + '">' : '') +
+        (thumbSrc ? (
+          '<div class="thumb-frame">' +
+            '<img class="item-thumb" src="' + thumbSrc + '" alt="' + item.name + '">' +
+            (Array.isArray(item.image) && item.image.length > 1 ?
+              '<button type="button" class="thumb-nav thumb-nav-prev" aria-label="התמונה הקודמת">&#8249;</button>' +
+              '<button type="button" class="thumb-nav thumb-nav-next" aria-label="התמונה הבאה">&#8250;</button>'
+            : '') +
+          '</div>'
+        ) : '') +
         '<h3 class="item-title-clickable">' + item.name + '</h3>' +
         priceBlock +
         '<p>' + item.desc + '</p>' +
@@ -1054,9 +1068,24 @@
         enforceMax();
       }
       if (thumbSrc){
-        card.querySelector('.item-thumb').addEventListener('click', function(){
-          window.MatokPhoto.open(item.name, item.image);
+        var thumbImgEl = card.querySelector('.item-thumb');
+        var thumbIndex = 0;
+        thumbImgEl.addEventListener('click', function(){
+          window.MatokPhoto.open(item.name, item.image, thumbIndex);
         });
+        if (Array.isArray(item.image) && item.image.length > 1){
+          var thumbItems = item.image;
+          card.querySelector('.thumb-nav-prev').addEventListener('click', function(e){
+            e.stopPropagation();
+            thumbIndex = (thumbIndex - 1 + thumbItems.length) % thumbItems.length;
+            thumbImgEl.src = thumbItems[thumbIndex].src;
+          });
+          card.querySelector('.thumb-nav-next').addEventListener('click', function(e){
+            e.stopPropagation();
+            thumbIndex = (thumbIndex + 1) % thumbItems.length;
+            thumbImgEl.src = thumbItems[thumbIndex].src;
+          });
+        }
       }
       if (item.nutrition){
         card.querySelector('.nutri-link').addEventListener('click', function(e){
