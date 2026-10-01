@@ -316,6 +316,8 @@
   </div>
 </header>
 
+<div id="promoBanner" role="status" style="display:none;background:var(--pink);color:#fff;text-align:center;font-weight:800;padding:10px 14px;font-size:calc(15px * var(--fs,1));line-height:1.4;">🎉 מבצע אוקטובר: 20% הנחה על כל האתר! ההנחה מחושבת אוטומטית בעגלת ההזמנה 🎉</div>
+
 <section class="hero" id="main-content">
   <div class="wrap hero-grid">
     <div class="hero-media-badge"><img src="images/logo-hero.png" alt="לוגו מתוק בשכונה"></div>
@@ -465,6 +467,10 @@
     <div id="cartItems"></div>
     <div id="cartEmpty" style="color:var(--ink-soft);font-size:calc(15px * var(--fs,1));">העגלה שלך ריקה. הוסיפו מוצרים מהתפריט 🙂</div>
     <div id="cartTotalRow" style="display:none;border-top:1px solid var(--line);margin-top:14px;padding-top:14px;font-weight:800;font-size:calc(16px * var(--fs,1));">
+      <div id="cartDiscountRows" style="display:none;font-weight:700;font-size:calc(14px * var(--fs,1));color:var(--ink-soft);margin-bottom:6px;">
+        <div>סכום לפני הנחה: <span id="cartSubtotal">0</span> ₪</div>
+        <div style="color:var(--pink);">הנחת אוקטובר (20%): −<span id="cartDiscount">0</span> ₪</div>
+      </div>
       סה"כ משוער: <span id="cartTotal">0</span> ₪
     </div>
     <div id="cartFulfillment" style="display:none;border-top:1px solid var(--line);margin-top:14px;padding-top:14px;">
@@ -535,6 +541,30 @@
   var cart = {};
   var WA_NUMBER = '972585049194';
 
+  // מבצע אוקטובר 2026: 20% הנחה. פעיל אוטומטית רק בחודש אוקטובר 2026 (שעון ישראל)
+  var PROMO_PERCENT = 20;
+  function promoActive(){
+    try {
+      var parts = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Jerusalem', year: 'numeric', month: '2-digit' }).formatToParts(new Date());
+      var y = 0, m = 0;
+      parts.forEach(function(p){ if (p.type === 'year') y = +p.value; if (p.type === 'month') m = +p.value; });
+      return y === 2026 && m === 10;
+    } catch (e) {
+      var d = new Date();
+      return d.getFullYear() === 2026 && d.getMonth() === 9;
+    }
+  }
+  function applyPromo(subtotal){
+    if (!promoActive()) return { subtotal: subtotal, discount: 0, total: subtotal };
+    var discount = Math.round(subtotal * PROMO_PERCENT) / 100;
+    return { subtotal: subtotal, discount: discount, total: subtotal - discount };
+  }
+  function fmt(n){ return String(Math.round(n * 100) / 100); }
+  (function(){
+    var b = document.getElementById('promoBanner');
+    if (b && promoActive()) b.style.display = 'block';
+  })();
+
   function parsePrice(str){
     var s = String(str);
     var m = s.match(/(\d+(?:\.\d+)?)\s*₪/);
@@ -598,7 +628,16 @@
       itemsEl.appendChild(row);
     });
 
-    totalEl.textContent = total;
+    var promo = applyPromo(total);
+    var discRows = document.getElementById('cartDiscountRows');
+    if (promo.discount > 0){
+      document.getElementById('cartSubtotal').textContent = fmt(promo.subtotal);
+      document.getElementById('cartDiscount').textContent = fmt(promo.discount);
+      discRows.style.display = 'block';
+    } else {
+      discRows.style.display = 'none';
+    }
+    totalEl.textContent = fmt(promo.total);
     totalRow.style.display = 'block';
 
     itemsEl.querySelectorAll('button[data-act]').forEach(function(btn){
@@ -639,7 +678,14 @@
     var msg = 'היי! אשמח להזמין:';
     if (recipientName) msg += '\nשם למילוי בהזמנה: ' + recipientName;
     msg += '\n' + lines.join('\n');
-    if (total > 0) msg += '\nסה"כ משוער: ' + total + ' ₪';
+    var promoMsg = applyPromo(total);
+    if (total > 0){
+      if (promoMsg.discount > 0){
+        msg += '\nסכום לפני הנחה: ' + fmt(promoMsg.subtotal) + ' ₪';
+        msg += '\nהנחת אוקטובר (20%): −' + fmt(promoMsg.discount) + ' ₪';
+      }
+      msg += '\nסה"כ משוער: ' + fmt(promoMsg.total) + ' ₪';
+    }
     msg += '\nאופן קבלה: ' + fulfillmentText;
     if (city) msg += '\nעיר: ' + city;
     msg += '\nתודה!';
