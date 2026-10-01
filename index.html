@@ -266,6 +266,17 @@
   .a11y-modal h3{color:var(--pink);font-size:calc(22px * var(--fs,1));margin-bottom:14px;}
   .a11y-modal p{font-size:calc(15px * var(--fs,1));line-height:1.8;color:var(--ink-soft);margin:0 0 12px;}
   .a11y-modal-close{position:absolute;top:14px;left:14px;background:none;border:none;font-size:26px;line-height:1;cursor:pointer;color:var(--ink-soft);}
+  .promo-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:10000;}
+  .promo-overlay.open{display:flex;}
+  .promo-modal{position:relative;background:var(--card,#fff);color:var(--ink,#222);border-radius:24px;max-width:420px;width:100%;text-align:center;padding:34px 24px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35);border-top:10px solid var(--pink);animation:promoPop .35s ease;}
+  @keyframes promoPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  .promo-close{position:absolute;top:8px;left:12px;background:none;border:none;font-size:34px;line-height:1;cursor:pointer;color:var(--ink-soft,#666);padding:4px 10px;}
+  .promo-emoji{font-size:44px;line-height:1;margin-bottom:6px;}
+  .promo-kicker{font-weight:800;color:var(--teal);font-size:calc(16px * var(--fs,1));letter-spacing:.5px;}
+  .promo-big{font-family:'Rubik',sans-serif;font-weight:900;color:var(--pink);font-size:calc(76px * var(--fs,1));line-height:1.05;margin:4px 0;}
+  .promo-sub{font-weight:800;font-size:calc(20px * var(--fs,1));margin-bottom:8px;}
+  .promo-text{color:var(--ink-soft,#666);font-size:calc(14.5px * var(--fs,1));line-height:1.5;margin-bottom:18px;}
+  .promo-cta{display:block;width:100%;border:none;background:var(--pink);color:#fff;border-radius:14px;padding:13px 0;font-weight:800;font-size:calc(17px * var(--fs,1));cursor:pointer;font-family:inherit;}
 </style>
 </head>
 <body>
@@ -317,6 +328,18 @@
 </header>
 
 <div id="promoBanner" role="status" style="display:none;background:var(--pink);color:#fff;text-align:center;font-weight:800;padding:10px 14px;font-size:calc(15px * var(--fs,1));line-height:1.4;">🎉 מבצע אוקטובר: 20% הנחה על כל האתר! ההנחה מחושבת אוטומטית בעגלת ההזמנה 🎉</div>
+
+<div class="promo-overlay" id="promoOverlay">
+  <div class="promo-modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+    <button type="button" class="promo-close" id="promoClose" aria-label="סגירה">&times;</button>
+    <div class="promo-emoji">🎉</div>
+    <div class="promo-kicker">מבצע אוקטובר</div>
+    <div class="promo-big" id="promoTitle">20% הנחה</div>
+    <div class="promo-sub">על כל האתר!</div>
+    <div class="promo-text">ההנחה תקפה לכל ההזמנות במהלך חודש אוקטובר ומחושבת אוטומטית בעגלת ההזמנה.</div>
+    <button type="button" class="promo-cta" id="promoCta">יאללה להזמין 🍰</button>
+  </div>
+</div>
 
 <section class="hero" id="main-content">
   <div class="wrap hero-grid">
@@ -563,6 +586,26 @@
   (function(){
     var b = document.getElementById('promoBanner');
     if (b && promoActive()) b.style.display = 'block';
+    var ov = document.getElementById('promoOverlay');
+    if (!ov || !promoActive()) return;
+    var seen = false;
+    try { seen = sessionStorage.getItem('promoOct2026Seen') === '1'; } catch (e) {}
+    function closePromo(){
+      ov.classList.remove('open');
+      try { sessionStorage.setItem('promoOct2026Seen', '1'); } catch (e) {}
+    }
+    document.getElementById('promoClose').addEventListener('click', closePromo);
+    document.getElementById('promoCta').addEventListener('click', function(){
+      closePromo();
+      var menu = document.getElementById('menu');
+      if (menu && menu.scrollIntoView) menu.scrollIntoView({ behavior: 'smooth' });
+    });
+    ov.addEventListener('click', function(e){ if (e.target === ov) closePromo(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closePromo(); });
+    if (!seen){
+      ov.classList.add('open');
+      document.getElementById('promoClose').focus();
+    }
   })();
 
   function parsePrice(str){
