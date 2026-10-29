@@ -277,9 +277,80 @@
   .promo-sub{font-weight:800;font-size:calc(20px * var(--fs,1));margin-bottom:8px;}
   .promo-text{color:var(--ink-soft,#666);font-size:calc(14.5px * var(--fs,1));line-height:1.5;margin-bottom:18px;}
   .promo-cta{display:block;width:100%;border:none;background:var(--pink);color:#fff;border-radius:14px;padding:13px 0;font-weight:800;font-size:calc(17px * var(--fs,1));cursor:pointer;font-family:inherit;}
+
+  /* ===== אנימציות ===== */
+  @keyframes revealUp{from{opacity:0;transform:translateY(32px) scale(.97);}}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-12px) rotate(2deg);}}
+  @keyframes sprinkleFloat{0%{transform:translateY(0) rotate(0);opacity:0;}15%{opacity:.85;}85%{opacity:.85;}100%{transform:translateY(-110vh) rotate(360deg);opacity:0;}}
+  @keyframes ctaPulse{0%{box-shadow:0 10px 24px rgba(0,0,0,.18),0 0 0 0 rgba(236,24,104,.55);}70%{box-shadow:0 10px 24px rgba(0,0,0,.18),0 0 0 16px rgba(236,24,104,0);}100%{box-shadow:0 10px 24px rgba(0,0,0,.18),0 0 0 0 rgba(236,24,104,0);}}
+  @keyframes shine{0%{transform:translateX(120%) skewX(-20deg);}60%,100%{transform:translateX(-220%) skewX(-20deg);}}
+  .rv{opacity:0;}
+  .rv.in{opacity:1;animation:revealUp .75s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:var(--d,0s);}
+  .hero-media-badge img{animation:floaty 5s ease-in-out infinite;}
+  .hero-sprinkles{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+  .hero-sprinkles i{position:absolute;bottom:-20px;width:8px;height:20px;border-radius:6px;opacity:0;animation:sprinkleFloat linear infinite;}
+  .hero .wrap{position:relative;z-index:1;}
+  .btn-primary{transition:transform .2s ease,background .2s ease;position:relative;overflow:hidden;}
+  .btn-primary:hover{transform:translateY(-3px) scale(1.04);}
+  .btn-primary:active{transform:scale(.97);}
+  .hero .btn-primary{animation:ctaPulse 2.4s ease-out infinite;}
+  .hero .btn-primary::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:shine 4s ease-in-out infinite;}
+  .btn-outline{transition:transform .2s ease,background .2s ease;}
+  .btn-outline:hover{transform:translateY(-3px);}
+  .item{transition:transform .25s ease,box-shadow .25s ease;}
+  .item:hover{transform:translateY(-6px);box-shadow:0 14px 28px rgba(0,0,0,.12);}
+  .item-thumb{transition:transform .4s ease;}
+  .thumb-frame{overflow:hidden;border-radius:10px;}
+  .item:hover .item-thumb{transform:scale(1.07);}
+  figure.photo{overflow:hidden;border-radius:16px;}
+  figure.photo img{transition:transform .5s ease,filter .3s ease;}
+  figure.photo:hover img{transform:scale(1.1) rotate(1deg);filter:saturate(1.15);}
+  .stat{transition:transform .25s ease;}
+  .stat:hover{transform:translateY(-5px) rotate(-1deg);}
+  .value svg{transition:transform .3s ease;}
+  .value:hover svg{transform:scale(1.4) rotate(12deg);}
+  .scroll-progress{position:fixed;top:0;right:0;left:0;height:4px;background:var(--pink);transform:scaleX(0);transform-origin:right;z-index:9999;pointer-events:none;}
+  @media (prefers-reduced-motion: reduce){
+    .hero-media-badge img,.hero .btn-primary,.hero .btn-primary::after,.hero-sprinkles i{animation:none !important;}
+    .rv.in{animation:none;}
+  }
+
+  /* ===== מסך טעינה ===== */
+  .loader{position:fixed;inset:0;background:var(--teal);z-index:20000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .6s ease,visibility .6s ease;}
+  .loader.hide{opacity:0;visibility:hidden;}
+  .loader-dots{display:flex;gap:14px;}
+  .loader-dots i{width:20px;height:20px;border-radius:50%;background:#fff;animation:loaderBounce 1s ease-in-out infinite;}
+  .loader-dots i:nth-child(2){background:var(--pink);animation-delay:.15s;}
+  .loader-dots i:nth-child(3){background:#FFD84D;animation-delay:.3s;}
+  .loader-dots i:nth-child(4){background:#FF9EC4;animation-delay:.45s;}
+  .loader-text{color:#fff;font-weight:800;font-size:calc(20px * var(--fs,1));animation:loaderFade 1.6s ease-in-out infinite;}
+  .loader-emoji{font-size:64px;line-height:1;animation:loaderSpin 1.8s ease-in-out infinite;}
+  @keyframes loaderBounce{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-26px) scale(1.15);}}
+  @keyframes loaderFade{0%,100%{opacity:.6;}50%{opacity:1;}}
+  @keyframes loaderSpin{0%,100%{transform:rotate(-12deg) scale(1);}50%{transform:rotate(12deg) scale(1.15);}}
+  @media (prefers-reduced-motion: reduce){ .loader-dots i,.loader-text,.loader-emoji{animation:none;} }
 </style>
 </head>
 <body>
+<div class="loader" id="pageLoader" role="status" aria-live="polite">
+  <div class="loader-emoji" aria-hidden="true">🧁</div>
+  <div class="loader-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="loader-text">מכינים לכם משהו מתוק…</div>
+</div>
+<script>
+(function(){
+  var l = document.getElementById('pageLoader'), t0 = Date.now(), done = false;
+  function hide(){
+    if (done || !l) return; done = true;
+    l.classList.add('hide');
+    setTimeout(function(){ if (l.parentNode) l.parentNode.removeChild(l); }, 800);
+  }
+  function ready(){ setTimeout(hide, Math.max(0, 1100 - (Date.now() - t0))); }
+  if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready);
+  setTimeout(hide, 5000);
+})();
+</script>
+
 
 <a href="#main-content" class="skip-link">דלגו לתוכן הראשי</a>
 
@@ -1349,5 +1420,108 @@
 })();
 </script>
 
+
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<script>
+(function(){
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  // פס התקדמות גלילה
+  var bar = document.getElementById('scrollProgress');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, h.scrollTop / max) : 0) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (reduce) return;
+
+  // קונפטי / סוכריות צפות בהירו
+  var hero = document.querySelector('.hero');
+  if (hero){
+    var box = document.createElement('div');
+    box.className = 'hero-sprinkles';
+    box.setAttribute('aria-hidden', 'true');
+    var colors = ['#EC1868', '#FFFFFF', '#FFD84D', '#FF9EC4', '#7FE3EC'];
+    for (var k = 0; k < 16; k++){
+      var el = document.createElement('i');
+      el.style.left = (Math.random() * 100) + '%';
+      el.style.background = colors[k % colors.length];
+      el.style.animationDuration = (9 + Math.random() * 9) + 's';
+      el.style.animationDelay = (-Math.random() * 14) + 's';
+      el.style.transform = 'rotate(' + Math.round(Math.random() * 180) + 'deg)';
+      box.appendChild(el);
+    }
+    hero.insertBefore(box, hero.firstChild);
+  }
+
+  if (!('IntersectionObserver' in window)) return;
+
+  // חשיפה בגלילה
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+        if (en.target.classList.contains('stat')) countUp(en.target.querySelector('b'));
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  function watch(el, delay){
+    if (!el || el.classList.contains('rv')) return;
+    el.classList.add('rv');
+    if (delay) el.style.setProperty('--d', delay + 's');
+    io.observe(el);
+  }
+  function watchGroup(sel, step){
+    document.querySelectorAll(sel).forEach(function(el, i){ watch(el, Math.min(i % 4, 3) * (step || 0.08)); });
+  }
+
+  watchGroup('.about h2, .menu h2, .press h2, .testimonials h2, .gallery h2, .contact h2', 0);
+  watchGroup('.about p, .callout', 0.05);
+  watchGroup('.stat', 0.12);
+  watchGroup('.value', 0.08);
+  watchGroup('figure.photo', 0.07);
+  watchGroup('.press-grid > *, .press .wrap > div', 0.1);
+  watch(document.querySelector('.contact .wrap'), 0);
+
+  // כרטיסי תפריט נוצרים דינמית ומתחלפים בין לשוניות
+  var menu = document.getElementById('menu');
+  if (menu){
+    var seq = 0;
+    new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        m.addedNodes.forEach(function(n){
+          if (n.nodeType !== 1) return;
+          var cards = n.classList && n.classList.contains('item') ? [n] : (n.querySelectorAll ? n.querySelectorAll('.item') : []);
+          Array.prototype.forEach.call(cards, function(c){ watch(c, (seq++ % 4) * 0.08); });
+        });
+      });
+      seq = 0;
+    }).observe(menu, { childList: true, subtree: true });
+    menu.querySelectorAll('.item').forEach(function(c, i){ watch(c, (i % 4) * 0.08); });
+  }
+
+  // ספירה עולה למספרים
+  function countUp(b){
+    if (!b) return;
+    var txt = b.textContent.trim();
+    if (!/^\d+$/.test(txt)) return;
+    var target = parseInt(txt, 10), t0 = null;
+    function step(t){
+      if (t0 === null) t0 = t;
+      var p = Math.min(1, (t - t0) / 1100);
+      b.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    }
+    b.textContent = '0';
+    requestAnimationFrame(step);
+  }
+})();
+</script>
 </body>
 </html>
