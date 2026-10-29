@@ -23,23 +23,23 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --cream:#221A12;
-      --ink:#F5ECDF;
-      --ink-soft:#CBB9A6;
-      --card:#2E241A;
-      --line:#4A3A28;
-      --teal:#3AD3E2;
-      --pink:#FF3D82;
+      --cream:#15181D;
+      --ink:#F1F3F6;
+      --ink-soft:#AAB3BF;
+      --card:#1F242B;
+      --line:#323945;
+      --teal:#17B3C4;
+      --pink:#FF4D8D;
     }
   }
   :root[data-theme="dark"]{
-    --cream:#221A12;
-    --ink:#F5ECDF;
-    --ink-soft:#CBB9A6;
-    --card:#2E241A;
-    --line:#4A3A28;
-    --teal:#3AD3E2;
-    --pink:#FF3D82;
+    --cream:#15181D;
+    --ink:#F1F3F6;
+    --ink-soft:#AAB3BF;
+    --card:#1F242B;
+    --line:#323945;
+    --teal:#17B3C4;
+    --pink:#FF4D8D;
   }
 
   *{box-sizing:border-box;}
@@ -254,6 +254,9 @@
   .a11y-size-row{display:flex;gap:8px;margin-bottom:14px;}
   .a11y-size-row button{flex:1;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:8px 0;font-weight:800;font-size:15px;cursor:pointer;color:var(--ink);}
   .a11y-size-row button.active{border-color:var(--teal);color:var(--teal-deep);}
+  .a11y-size-row button{font-size:22px;line-height:1;}
+  .a11y-size-row button:disabled{opacity:.35;cursor:default;}
+  .a11y-size-label{flex:1.4;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:var(--ink);}
   .a11y-toggle{display:block;width:100%;text-align:center;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px 0;font-weight:700;font-size:14px;margin-bottom:10px;cursor:pointer;color:var(--ink);}
   .a11y-toggle.active{border-color:var(--teal);background:#EAFAFB;color:var(--teal-deep);}
   .a11y-reset{display:block;width:100%;text-align:center;border:2px solid var(--pink);background:#fff;border-radius:10px;padding:10px 0;font-weight:700;font-size:14px;cursor:pointer;color:var(--pink);}
@@ -344,6 +347,35 @@
   @keyframes arrowUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
   @media (max-width:600px){ .to-top{left:14px;bottom:80px;width:44px;height:44px;} }
   @media (prefers-reduced-motion: reduce){ #cartBtn.bump,#cartBtn.bump #cartBadge{animation:none;} }
+
+  /* ===== כפתור מצב כהה ===== */
+  .theme-btn{position:fixed;right:22px;bottom:90px;z-index:55;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;background:#E6E1DC;color:#1B1F3B;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.2);transition:transform .25s ease,background .3s ease;}
+  .theme-btn:hover{transform:scale(1.1) rotate(-12deg);}
+  .theme-btn svg{transition:transform .4s ease;}
+  .theme-btn .i-sun{display:none;}
+  html.is-dark .theme-btn{background:#323945;color:#FFD84D;}
+  html.is-dark .theme-btn .i-sun{display:block;}
+  html.is-dark .theme-btn .i-moon{display:none;}
+  @media (max-width:600px){ .theme-btn{right:14px;bottom:78px;width:44px;height:44px;} }
+  html.is-dark .tab,html.is-dark .value,html.is-dark .price-select,html.is-dark .item .carbs{background:var(--card);}
+  html.is-dark .tab.active{background:var(--pink);}
+  body,.item,header,.menu,.stat{transition:background-color .35s ease,color .35s ease,border-color .35s ease;}
+
+  /* ===== שאלות ותשובות ===== */
+  .faq{padding:70px 0;background:var(--cream);}
+  .faq h2{text-align:center;font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);}
+  .faq-sub{text-align:center;color:var(--ink-soft);margin:8px 0 30px;font-size:calc(16px * var(--fs,1));}
+  .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+  .faq-item{background:var(--card);border:2px solid var(--line);border-radius:16px;transition:border-color .25s ease,box-shadow .25s ease;}
+  .faq-item[open]{border-color:var(--teal);box-shadow:0 8px 20px rgba(0,0,0,.08);}
+  .faq-item summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:800;font-size:calc(16.5px * var(--fs,1));color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;transition:transform .3s ease;}
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item summary:hover{color:var(--pink);}
+  .faq-answer{padding:0 20px 18px;color:var(--ink-soft);font-size:calc(15.5px * var(--fs,1));line-height:1.7;animation:faqOpen .35s ease;}
+  @keyframes faqOpen{from{opacity:0;transform:translateY(-6px);}}
+  @media (prefers-reduced-motion: reduce){ .faq-answer{animation:none;} }
 </style>
 </head>
 <body>
@@ -381,6 +413,7 @@
       <a href="#press">בתקשורת</a>
       <a href="#testimonials">לקוחות ממליצים</a>
       <a href="#gallery">גלריה</a>
+      <a href="#faq">שאלות נפוצות</a>
       <a href="#contact">יצירת קשר</a>
       <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener" aria-label="אינסטגרם" class="no-a11y-highlight" style="display:flex;align-items:center;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -407,7 +440,8 @@
     <a href="#press">בתקשורת</a>
     <a href="#testimonials">לקוחות ממליצים</a>
     <a href="#gallery">גלריה</a>
-    <a href="#contact">יצירת קשר</a>
+    <a href="#faq">שאלות נפוצות</a>
+      <a href="#contact">יצירת קשר</a>
     <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener">אינסטגרם</a>
     <a href="https://www.facebook.com/mtwq.bskwnh/" target="_blank" rel="noopener">פייסבוק</a>
   </div>
@@ -512,21 +546,13 @@
     <p class="sub">הצצה למוצרים שלנו</p>
     <div class="gallery-grid">
       <figure class="photo"><img src="images/gallery-01.jpg" alt="קאפקייקס עם קצפת רוזט"><figcaption>קאפקייקס רוזט</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-02.jpg" alt="מארז שוקולדי"><figcaption>מארז שוקולדי</figcaption></figure>
       <figure class="photo"><img src="images/gallery-03.jpg" alt="עוגת פטיסייר תותים"><figcaption>עוגת פטיסייר תותים</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-04.jpg" alt="בראוניז עשירים"><figcaption>בראוניז עשירים</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-05.jpg" alt="שושני מרנג"><figcaption>שושני מרנג</figcaption></figure>
       <figure class="photo"><img src="images/gallery-06.jpg" alt="עוגת שוקולד ליום הולדת"><figcaption>עוגת יום הולדת שוקולד</figcaption></figure>
       <figure class="photo"><img src="images/gallery-07.jpg" alt="מארז קראנצ׳י"><figcaption>מארז קראנצ׳י</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-08.jpg" alt="קינוחי פבלובה בציפוי פירות יער"><figcaption>פבלובה פירות יער</figcaption></figure>
       <figure class="photo"><img src="images/gallery-09.jpg" alt="עוגת יום הולדת פיקאצ׳ו"><figcaption>עוגת יום הולדת מעוצבת</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-10.jpg" alt="עוגת מספרים שוקולד עם מקרונים"><figcaption>עוגת מספרים שוקולד</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-11.jpg" alt="עוגת לב בשני צבעים"><figcaption>עוגת לב מעוצבת</figcaption></figure>
       <figure class="photo"><img src="images/gallery-12.jpg" alt="עוגת לב בקרם וניל"><figcaption>עוגת לב קרם</figcaption></figure>
       <figure class="photo"><img src="images/gallery-13.jpg" alt="פאדג׳ ובראוניז בתצוגה"><figcaption>פאדג׳ ובראוניז</figcaption></figure>
       <figure class="photo"><img src="images/gallery-14.jpg" alt="עוגת יום הולדת בעיצוב אנימה"><figcaption>עוגת יום הולדת מעוצבת</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-15.jpg" alt="עוגות בחושות בתבניות"><figcaption>עוגות בחושות</figcaption></figure>
-      <figure class="photo"><img src="images/gallery-16.jpg" alt="קרם ברולה בתבניות אישיות"><figcaption>קרם ברולה</figcaption></figure>
     </div>
   </div>
 </section>
@@ -549,6 +575,23 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         </a>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>שאלות ותשובות</h2>
+    <p class="faq-sub">הכי נפוץ: פחמימות, קלוריות, אלרגיות והזמנות</p>
+    <div class="faq-list">
+    <details class="faq-item"><summary>האם המוצרים באמת בלי סוכר ובלי גלוטן?</summary><div class="faq-answer">כן. כל המוצרים באתר דלי פחמימה, ללא סוכר וללא גלוטן. מוצרים שמסומנים ב״קיטו״ מתאימים גם לתזונה קטוגנית.</div></details>
+    <details class="faq-item"><summary>כמה פחמימות יש במוצרים?</summary><div class="faq-answer">הערך מופיע בכל כרטיס מוצר בתפריט. כמה דוגמאות: מרנג — 0 גרם ליחידה, פבלובה — 1 גרם ליחידה, מקרונים — 2 גרם ליחידה, בראוניז — 7 גרם לריבוע, ועוגת שמרים — 8 גרם לפרוסה.</div></details>
+    <details class="faq-item"><summary>איפה אפשר לראות קלוריות וערכים תזונתיים?</summary><div class="faq-answer">במוצרים שיש להם ערכים מלאים מופיע בכרטיס הקישור ״ערכים תזונתיים מלאים״. בלחיצה עליו רואים קלוריות, חלבון, פחמימה ושומן, גם ליחידה וגם ל-100 גרם. למשל, עוגיית שוקולד ציפס היא כ-185 קלוריות ו-5 גרם פחמימה ליחידה.</div></details>
+    <details class="faq-item"><summary>מה זה ״קיטו״ בתפריט?</summary><div class="faq-answer">תווית שמסמנת מוצרים שמתאימים גם למי שאוכל קטוגני, כלומר מעט מאוד פחמימות ויותר שומן. מוצרים בלי התווית הם עדיין דלי פחמימה, אבל פחות מתאימים לקיטו מחמירה.</div></details>
+    <details class="faq-item"><summary>האם זה מתאים לחולי סוכרת?</summary><div class="faq-answer">המאפייה קמה מתוך הצורך האישי של ארבל, שחיה עם סוכרת נעורים כבר 10 שנים, ולכן כל המוצרים נבנו עם ערכי פחמימה נמוכים. עם זאת, כל גוף מגיב אחרת, ולכן מומלץ להתייעץ עם הרופא או הדיאטנית שלכם. אפשר גם לכתוב לנו בוואטסאפ ונשמח לעזור לבחור.</div></details>
+    <details class="faq-item"><summary>יש במוצרים אגוזים או בוטנים? אני אלרגי/ת</summary><div class="faq-answer">יש מוצרים שמכילים בוטנים או אגוזים, למשל עוגיות שוקולד במילוי בוטנים, מארזים שכוללים אותן, כוסות עם אגוזי לוז וחלק מטעמי העוגה הבחושה. אם יש לכם אלרגיה או רגישות, כתבו לנו בוואטסאפ לפני ההזמנה ונפרט את המרכיבים.</div></details>
+    <details class="faq-item"><summary>איך מזמינים, ומה לגבי איסוף ומשלוח?</summary><div class="faq-answer">מוסיפים מוצרים לעגלה ושולחים את ההזמנה בוואטסאפ, ואנחנו חוזרים אליכם לתיאום. אפשר לאסוף עצמאית מהמאפייה ברמת גן, או לקבל משלוח בתשלום, לפי מרחק.</div></details>
+    <details class="faq-item"><summary>אפשר להזמין עוגה מעוצבת בהתאמה אישית?</summary><div class="faq-answer">בהחלט. עוגה בעיצוב אישי החל מ-300 ₪, לפי קוטר ומורכבות. מומלץ לצרף בוואטסאפ תמונת השראה או רפרנס.</div></details>
     </div>
   </div>
 </section>
@@ -630,10 +673,9 @@
 <div class="a11y-panel" id="a11yPanel" role="dialog" aria-label="הגדרות נגישות">
   <h4>גודל טקסט</h4>
   <div class="a11y-size-row" id="a11ySizeRow">
-    <button type="button" data-size="-1">-A</button>
-    <button type="button" data-size="0" class="active">A</button>
-    <button type="button" data-size="1">+A</button>
-    <button type="button" data-size="2">++A</button>
+    <button type="button" id="a11yMinus" aria-label="הקטנת טקסט">&minus;</button>
+    <span class="a11y-size-label" id="a11ySizeLabel" aria-live="polite">100%</span>
+    <button type="button" id="a11yPlus" aria-label="הגדלת טקסט">+</button>
   </div>
   <button type="button" class="a11y-toggle" data-toggle="contrast">ניגודיות גבוהה</button>
   <button type="button" class="a11y-toggle" data-toggle="links">הדגשת קישורים</button>
@@ -1340,7 +1382,8 @@
 })();
 
 (function(){
-  var SIZE_MAP = { '-1':0.9, '0':1, '1':1.15, '2':1.3 };
+  var SIZES = [0.85, 0.92, 1, 1.1, 1.2, 1.3, 1.4];
+  var sizeIdx = 2;
   var btn = document.getElementById('a11yBtn');
   var panel = document.getElementById('a11yPanel');
   var sizeRow = document.getElementById('a11ySizeRow');
@@ -1352,14 +1395,17 @@
     btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 
-  sizeRow.querySelectorAll('button').forEach(function(b){
-    b.addEventListener('click', function(){
-      var key = b.getAttribute('data-size');
-      root.style.setProperty('--fs', SIZE_MAP[key]);
-      sizeRow.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
-      b.classList.add('active');
-    });
-  });
+  var minusBtn = document.getElementById('a11yMinus');
+  var plusBtn = document.getElementById('a11yPlus');
+  var sizeLabel = document.getElementById('a11ySizeLabel');
+  function applySize(){
+    root.style.setProperty('--fs', SIZES[sizeIdx]);
+    sizeLabel.textContent = Math.round(SIZES[sizeIdx] * 100) + '%';
+    minusBtn.disabled = sizeIdx === 0;
+    plusBtn.disabled = sizeIdx === SIZES.length - 1;
+  }
+  minusBtn.addEventListener('click', function(){ if (sizeIdx > 0){ sizeIdx--; applySize(); } });
+  plusBtn.addEventListener('click', function(){ if (sizeIdx < SIZES.length - 1){ sizeIdx++; applySize(); } });
 
   panel.querySelectorAll('.a11y-toggle').forEach(function(b){
     b.addEventListener('click', function(){
@@ -1370,10 +1416,8 @@
   });
 
   resetBtn.addEventListener('click', function(){
-    root.style.setProperty('--fs', 1);
+    sizeIdx = 2; applySize();
     ['a11y-contrast','a11y-links','a11y-readable','a11y-noanim'].forEach(function(c){ root.classList.remove(c); });
-    sizeRow.querySelectorAll('button').forEach(function(x){ x.classList.remove('active'); });
-    sizeRow.querySelector('[data-size="0"]').classList.add('active');
     panel.querySelectorAll('.a11y-toggle').forEach(function(x){ x.classList.remove('active'); });
   });
 
@@ -1552,6 +1596,34 @@
   function chk(){ b.classList.toggle('show', (window.scrollY || document.documentElement.scrollTop) > 700); }
   window.addEventListener('scroll', chk, { passive: true }); chk();
   b.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
+</script>
+<button type="button" class="theme-btn" id="themeBtn" aria-label="מעבר בין מצב בהיר למצב כהה">
+  <svg class="i-moon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="i-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+</button>
+<script>
+(function(){
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  var mq = null;
+  try { mq = window.matchMedia('(prefers-color-scheme: dark)'); } catch (e) {}
+  var saved = null;
+  try { saved = localStorage.getItem('matokTheme'); } catch (e) {}
+  function isDark(){
+    var t = root.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return !!(mq && mq.matches);
+  }
+  function sync(){ root.classList.toggle('is-dark', isDark()); }
+  if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+  sync();
+  if (mq && mq.addEventListener) mq.addEventListener('change', sync);
+  btn.addEventListener('click', function(){
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('matokTheme', next); } catch (e) {}
+    sync();
+  });
 })();
 </script>
 </body>
