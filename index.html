@@ -329,6 +329,27 @@
   @keyframes loaderFade{0%,100%{opacity:.6;}50%{opacity:1;}}
   @keyframes loaderSpin{0%,100%{transform:rotate(-12deg) scale(1);}50%{transform:rotate(12deg) scale(1.15);}}
   @media (prefers-reduced-motion: reduce){ .loader-dots i,.loader-text,.loader-emoji{animation:none;} }
+
+  /* ===== עגלה מקפצת, באנר, חזרה למעלה ===== */
+  @keyframes cartBounce{0%{transform:scale(1) rotate(0);}25%{transform:scale(1.35) rotate(-14deg);}50%{transform:scale(.9) rotate(10deg);}75%{transform:scale(1.15) rotate(-5deg);}100%{transform:scale(1) rotate(0);}}
+  @keyframes badgePop{0%{transform:scale(1);}40%{transform:scale(1.7);}100%{transform:scale(1);}}
+  #cartBtn.bump{animation:cartBounce .6s ease;}
+  #cartBtn.bump #cartBadge{animation:badgePop .5s ease;}
+  @keyframes marqueeMove{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .marquee{background:var(--card);color:var(--ink);overflow:hidden;white-space:nowrap;direction:ltr;padding:12px 0;border:2px solid var(--line);border-radius:999px;position:relative;margin:22px 14px;box-shadow:0 6px 18px rgba(0,0,0,.07);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+  .marquee-track{display:inline-flex;animation:marqueeMove 60s linear infinite;}
+  .marquee:hover .marquee-track{animation-play-state:paused;}
+  .marquee span{direction:rtl;font-weight:800;font-size:calc(16px * var(--fs,1));padding:0 14px;font-family:'Rubik',sans-serif;}
+  .marquee span.dot{padding:0 2px;font-size:calc(18px * var(--fs,1));}
+  .marquee span:nth-child(4n+1){color:var(--pink);}
+  .marquee span:nth-child(4n+3){color:var(--teal-deep);}
+  .to-top{position:fixed;left:22px;bottom:92px;z-index:49;width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;background:var(--pink);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25);opacity:0;visibility:hidden;transform:translateY(20px) scale(.7);transition:opacity .3s ease,transform .3s ease,visibility .3s;}
+  .to-top.show{opacity:1;visibility:visible;transform:translateY(0) scale(1);}
+  .to-top:hover{transform:translateY(-5px) scale(1.1);}
+  .to-top:hover svg{animation:arrowUp .7s ease infinite;}
+  @keyframes arrowUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+  @media (max-width:600px){ .to-top{left:14px;bottom:80px;width:44px;height:44px;} }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{animation:none;} #cartBtn.bump,#cartBtn.bump #cartBadge{animation:none;} }
 </style>
 </head>
 <body>
@@ -427,6 +448,8 @@
     <path d="M0,32 C240,64 480,0 720,20 C960,40 1200,64 1440,28 L1440,60 L0,60 Z" fill="var(--cream)"/>
   </svg>
 </section>
+<div class="marquee" aria-hidden="true"><div class="marquee-track"><span>בראוניז</span><span class="dot">🍫</span><span>מקרונים</span><span class="dot">🍬</span><span>פבלובה</span><span class="dot">🍓</span><span>קרם ברולה</span><span class="dot">🍮</span><span>עוגות יום הולדת</span><span class="dot">🎂</span><span>קינוחי כוסות</span><span class="dot">🧁</span><span>דל פחמימה</span><span class="dot">✨</span><span>ללא גלוטן</span><span class="dot">🌾</span><span>אפייה ביתית</span><span class="dot">🏠</span><span>בראוניז</span><span class="dot">🍫</span><span>מקרונים</span><span class="dot">🍬</span><span>פבלובה</span><span class="dot">🍓</span><span>קרם ברולה</span><span class="dot">🍮</span><span>עוגות יום הולדת</span><span class="dot">🎂</span><span>קינוחי כוסות</span><span class="dot">🧁</span><span>דל פחמימה</span><span class="dot">✨</span><span>ללא גלוטן</span><span class="dot">🌾</span><span>אפייה ביתית</span><span class="dot">🏠</span></div></div>
+
 
 <section class="about" id="about">
   <div class="wrap about-grid">
@@ -687,9 +710,15 @@
     return m ? parseFloat(m[1]) : null;
   }
 
+  var prevCartQty = 0;
   function updateBadges(){
     var totalQty = 0;
     Object.keys(cart).forEach(function(id){ totalQty += cart[id].qty; });
+    if (totalQty > prevCartQty){
+      var cb = document.getElementById('cartBtn');
+      if (cb){ cb.classList.remove('bump'); void cb.offsetWidth; cb.classList.add('bump'); }
+    }
+    prevCartQty = totalQty;
     var badge = document.getElementById('cartBadge');
     if (totalQty > 0){
       badge.textContent = totalQty;
@@ -1521,6 +1550,15 @@
     b.textContent = '0';
     requestAnimationFrame(step);
   }
+})();
+</script>
+<button type="button" class="to-top" id="toTop" aria-label="חזרה לראש הדף"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>
+(function(){
+  var b = document.getElementById('toTop');
+  function chk(){ b.classList.toggle('show', (window.scrollY || document.documentElement.scrollTop) > 700); }
+  window.addEventListener('scroll', chk, { passive: true }); chk();
+  b.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
 })();
 </script>
 </body>
