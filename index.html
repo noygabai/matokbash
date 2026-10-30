@@ -59,7 +59,8 @@
   @media (max-width:640px){.wrap{padding:0 20px;}}
 
   header{position:sticky;top:0;z-index:40;background:var(--card);box-shadow:0 2px 12px rgba(0,0,0,.06);}
-  .navrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:16px;}
+  .navrow{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;gap:16px;}
+  @media (max-width:640px){ .navrow{padding:16px 20px;} }
   .brand{display:flex;align-items:center;gap:10px;}
   .brand .logo-badge{width:46px;height:46px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;}
   .brand .logo-badge img{width:100%;height:100%;object-fit:cover;}
@@ -179,7 +180,8 @@
   .photo-nav-prev{left:10px;}
   .photo-nav-next{right:10px;}
   .photo-counter{margin-top:6px;font-size:calc(13px * var(--fs,1));color:var(--ink-soft);font-weight:700;}
-  .photo-modal-close{position:absolute;top:10px;left:10px;background:var(--card);border:none;border-radius:50%;width:32px;height:32px;font-size:20px;line-height:1;cursor:pointer;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.2);}
+  .photo-modal-close{position:absolute;top:12px;left:12px;z-index:20;background:rgba(0,0,0,.65);color:#fff;border:2px solid rgba(255,255,255,.85);border-radius:50%;width:42px;height:42px;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 3px 10px rgba(0,0,0,.35);transition:transform .2s ease,background .2s ease;}
+  .photo-modal-close:hover{background:var(--pink);transform:scale(1.1) rotate(90deg);}
 
   .press{padding:60px 0;text-align:center;}
   .press h2{font-size:clamp(calc(26px * var(--fs,1)), calc(4vw * var(--fs,1)), calc(34px * var(--fs,1)));color:var(--pink);}
@@ -377,6 +379,9 @@
   @media (prefers-reduced-motion: reduce){ .faq-answer{animation:none;} }
 
   .hero .btn-primary{padding:15px 34px;width:min(420px,calc(100vw - 40px));text-align:center;}
+
+  .contact .contact-ask{margin:22px auto 0;font-size:calc(15px * var(--fs,1));}
+  .contact .contact-ask a{color:#fff;font-weight:800;text-decoration:underline;text-underline-offset:3px;}
 </style>
 </head>
 <body>
@@ -433,14 +438,9 @@
   <div class="mobile-menu" id="mobileMenu">
     <a href="#menu" style="color:var(--pink);font-weight:800;">תפריט</a>
     <a href="#about">מי אני</a>
-    <a href="#press">בתקשורת</a>
-    <a href="#testimonials">לקוחות ממליצים</a>
     <a href="#gallery">גלריה</a>
     <a href="#faq">שאלות נפוצות</a>
-      <a href="#contact">יצירת קשר</a>
-    <a href="https://wa.me/972585049194" target="_blank" rel="noopener" class="no-a11y-highlight">צרו קשר בוואטסאפ</a>
-    <a href="https://www.instagram.com/matok_bashchuna/" target="_blank" rel="noopener">אינסטגרם</a>
-    <a href="https://www.facebook.com/mtwq.bskwnh/" target="_blank" rel="noopener">פייסבוק</a>
+    <a href="#contact">יצירת קשר</a>
   </div>
 </header>
 
@@ -528,9 +528,9 @@
     <h2>מה הלקוחות אומרים</h2>
     <p class="sub">כמה מילים מלקוחות שהזמינו מאיתנו</p>
     <div class="testi-carousel">
-      <button type="button" class="testi-arrow testi-arrow-next" id="testiNext" aria-label="הביקורת הבאה">&#8250;</button>
+      <button type="button" class="testi-arrow testi-arrow-next" id="testiNext" aria-label="הביקורת הקודמת"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"/></svg></button>
       <div class="testi-slide-wrap" id="testiSlideWrap"></div>
-      <button type="button" class="testi-arrow testi-arrow-prev" id="testiPrev" aria-label="הביקורת הקודמת">&#8249;</button>
+      <button type="button" class="testi-arrow testi-arrow-prev" id="testiPrev" aria-label="הביקורת הבאה"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg></button>
     </div>
     <div class="testi-dots" id="testiDots"></div>
   </div>
@@ -555,10 +555,10 @@
 
 <section class="contact" id="contact">
   <div class="wrap">
-    <h2>מוכנים להזמין?</h2>
-    <p>כתבו לנו בוואטסאפ ונשמח לעזור לכם לבחור בדיוק את מה שמתאים לכם.</p>
-    <p style="font-size:calc(14.5px * var(--fs,1));color:#FFE3EE;max-width:52ch;margin:0 auto 20px;">ניתן לאסוף עצמאית מהמאפייה, או לקבל משלוח בתשלום (בהתאם למרחק). מועד האספקה המדויק יתואם איתכם בוואטסאפ, בהתאם לסיכום ולנוחיותכם.</p>
+    <h2>יצירת קשר</h2>
+    <p>שאלה, בקשה מיוחדת או רעיון לעוגה? נשמח לשמוע מכם ולעזור.</p>
     <a class="btn-primary no-a11y-highlight" href="https://wa.me/972585049194" target="_blank" rel="noopener">צרו קשר בוואטסאפ</a>
+    <p class="contact-ask">רוצים להזמין? <a href="#menu" class="no-a11y-highlight">לתפריט ולהזמנה באתר</a></p>
     <div class="phone">058-5049194</div>
     <div style="color:#FFE3EE;font-size:calc(14px * var(--fs,1));margin-top:6px;">מתוק בשכונה · רמת גן</div>
     <div style="margin-top:18px;">
@@ -581,13 +581,12 @@
     <p class="faq-sub">הכי נפוץ: פחמימות, קלוריות, אלרגיות והזמנות</p>
     <div class="faq-list">
     <details class="faq-item"><summary>האם המוצרים באמת בלי סוכר ובלי גלוטן?</summary><div class="faq-answer">כן. כל המוצרים באתר דלי פחמימה, ללא סוכר וללא גלוטן. מוצרים שמסומנים ב״קיטו״ מתאימים גם לתזונה קטוגנית.</div></details>
-    <details class="faq-item"><summary>כמה פחמימות יש במוצרים?</summary><div class="faq-answer">הערך מופיע בכל כרטיס מוצר בתפריט. כמה דוגמאות: מרנג — 0 גרם ליחידה, פבלובה — 1 גרם ליחידה, מקרונים — 2 גרם ליחידה, בראוניז — 7 גרם לריבוע, ועוגת שמרים — 8 גרם לפרוסה.</div></details>
-    <details class="faq-item"><summary>איפה אפשר לראות קלוריות וערכים תזונתיים?</summary><div class="faq-answer">במוצרים שיש להם ערכים מלאים מופיע בכרטיס הקישור ״ערכים תזונתיים מלאים״. בלחיצה עליו רואים קלוריות, חלבון, פחמימה ושומן, גם ליחידה וגם ל-100 גרם. למשל, עוגיית שוקולד ציפס היא כ-185 קלוריות ו-5 גרם פחמימה ליחידה.</div></details>
+    <details class="faq-item"><summary>כמה פחמימות יש במוצרים?</summary><div class="faq-answer">הערך מופיע בכל כרטיס מוצר בתפריט, והוא נע בין 0 גרם (מרנג) לכ-8 גרם (עוגות שמרים ובראוניז).</div></details>
+    <details class="faq-item"><summary>איפה אפשר לראות קלוריות וערכים תזונתיים?</summary><div class="faq-answer">במוצרים שיש להם ערכים תזונתיים מופיע בכרטיס הקישור ״ערכים תזונתיים מלאים״. בלחיצה עליו רואים קלוריות, חלבון, פחמימה ושומן, ליחידה ול-100 גרם.</div></details>
     <details class="faq-item"><summary>מה זה ״קיטו״ בתפריט?</summary><div class="faq-answer">תווית שמסמנת מוצרים שמתאימים גם למי שאוכל קטוגני, כלומר מעט מאוד פחמימות ויותר שומן. מוצרים בלי התווית הם עדיין דלי פחמימה, אבל פחות מתאימים לקיטו מחמירה.</div></details>
     <details class="faq-item"><summary>האם זה מתאים לחולי סוכרת?</summary><div class="faq-answer">המאפייה קמה מתוך הצורך האישי של ארבל, שחיה עם סוכרת נעורים כבר 10 שנים, ולכן כל המוצרים נבנו עם ערכי פחמימה נמוכים. עם זאת, כל גוף מגיב אחרת, ולכן מומלץ להתייעץ עם הרופא או הדיאטנית שלכם. אפשר גם לכתוב לנו בוואטסאפ ונשמח לעזור לבחור.</div></details>
     <details class="faq-item"><summary>יש במוצרים אגוזים או בוטנים? אני אלרגי/ת</summary><div class="faq-answer">יש מוצרים שמכילים בוטנים או אגוזים, למשל עוגיות שוקולד במילוי בוטנים, מארזים שכוללים אותן, כוסות עם אגוזי לוז וחלק מטעמי העוגה הבחושה. אם יש לכם אלרגיה או רגישות, כתבו לנו בוואטסאפ לפני ההזמנה ונפרט את המרכיבים.</div></details>
     <details class="faq-item"><summary>איך מזמינים, ומה לגבי איסוף ומשלוח?</summary><div class="faq-answer">מוסיפים מוצרים לעגלה ושולחים את ההזמנה בוואטסאפ, ואנחנו חוזרים אליכם לתיאום. אפשר לאסוף עצמאית מהמאפייה ברמת גן, או לקבל משלוח בתשלום, לפי מרחק.</div></details>
-    <details class="faq-item"><summary>אפשר להזמין עוגה מעוצבת בהתאמה אישית?</summary><div class="faq-answer">בהחלט. עוגה בעיצוב אישי החל מ-300 ₪, לפי קוטר ומורכבות. מומלץ לצרף בוואטסאפ תמונת השראה או רפרנס.</div></details>
     </div>
   </div>
 </section>
@@ -1371,8 +1370,8 @@
     timer = setInterval(function(){ goTo(current + 1); }, 5000);
   }
 
-  document.getElementById('testiNext').addEventListener('click', function(){ goTo(current + 1); restartTimer(); });
-  document.getElementById('testiPrev').addEventListener('click', function(){ goTo(current - 1); restartTimer(); });
+  document.getElementById('testiNext').addEventListener('click', function(){ goTo(current - 1); restartTimer(); });
+  document.getElementById('testiPrev').addEventListener('click', function(){ goTo(current + 1); restartTimer(); });
 
   restartTimer();
 })();
